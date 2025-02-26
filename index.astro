@@ -1,0 +1,289 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <link rel="stylesheet" href="/src/styles/index.css"/>
+    <link rel="carstyle" href="src/styles/carousel.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Navigation -->
+    <header class="nav">
+      <nav>
+        <ul>
+          <li><a href="#">Resume</a></li>
+          <div class="logo">
+            <a href="#home"><strong>Anton Orlov</strong></a>
+          </div>
+          <li><a href="#">Projects</a></li>
+        </ul>
+        <div class="divider"></div>
+      </nav>
+    </header>
+
+    <!-- Hero / Intro Section -->
+    <section class="hero" id="home">
+      <div class="hero-left">
+        <h1 class="name">
+          Hello,
+        </h1>
+        <h2 class="tagline">
+          I am Entrepreneur and student,
+        </h2>
+        <p class="summary">
+           I have experience working on multiple projects and am currently leading one.<br><br>
+           I've traveled the world and had the privilege of building successful teams from the ground up.<br><br>
+           My passion lies in creation and innovation, and my dream is to empower others to do the same.
+        </p>
+        <!-- Link circles with official LinkedIn and Instagram logos -->
+        <div class="link-circles">
+          <a href="https://www.linkedin.com/in/anton-orlov-b16126269/" class="circle-link" aria-label="LinkedIn" target="_blank">
+            <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <title>LinkedIn</title>
+              <path fill="#ffffff" d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11.5 20h-3v-9h3v9zm-1.5-10.25c-.966 0-1.75-.784-1.75-1.75S5.534 6.5 6.5 6.5s1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm13 10.25h-3v-4.5c0-1.08-.02-2.47-1.5-2.47-1.5 0-1.73 1.17-1.73 2.38v4.59h-3v-9h2.89v1.23h.04c.403-.76 1.387-1.56 2.855-1.56 3.053 0 3.62 2.008 3.62 4.62v4.71z"/>
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/orochiyo?igsh=MXd4MW9sMHN6czI2eQ==" class="circle-link" aria-label="Instagram" target="_blank">
+            <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <title>Instagram</title>
+              <path fill="#ffffff" d="M12 2.2c3.1 0 3.5 0 4.7.1 1.2.1 1.9.3 2.3.5.6.2 1 .5 1.5 1 .5.5.8.9 1 1.5.2.4.4 1.1.5 2.3.1 1.2.1 1.6.1 4.7s0 3.5-.1 4.7c-.1 1.2-.3 1.9-.5 2.3-.2.6-.5 1-.9 1.5-.5.5-.9.8-1.5 1-.4.2-1.1.4-2.3.5-1.2.1-1.6.1-4.7.1s-3.5 0-4.7-.1c-1.2-.1-1.9-.3-2.3-.5-.6-.2-1-.5-1.5-1-.5-.5-.8-.9-1-1.5-.2-.4-.4-1.1-.5-2.3-.1-1.2-.1-1.6-.1-4.7s0-3.5.1-4.7c.1-1.2.3-1.9.5-2.3.2-.6.5-1 1-1.5.5-.5.9-.8 1.5-1 .4-.2 1.1-.4 2.3-.5 1.2-.1 1.6-.1 4.7-.1M12 0C8.741 0 8.332.015 7.052.072 5.771.129 4.807.308 4.042.633c-.78.337-1.44.787-2.102 1.45C1.278 2.747.828 3.407.49 4.187.166 4.952-.013 5.915-.07 7.196-.127 8.476-.142 8.885-.142 12c0 3.115.015 3.524.072 4.804.057 1.281.236 2.244.561 3.01.337.78.787 1.44 1.45 2.102.662.662 1.322 1.112 2.102 1.45.766.325 1.73.504 3.01.561 1.28.057 1.689.072 4.804.072s3.524-.015 4.804-.072c1.281-.057 2.244-.236 3.01-.561.78-.337 1.44-.787 2.102-1.45.662-.662 1.112-1.322 1.45-2.102.325-.766.504-1.73.561-3.01.057-1.28.072-1.689.072-4.804s-.015-3.524-.072-4.804c-.057-1.281-.236-2.244-.561-3.01-.337-.78-.787-1.44-1.45-2.102-.662-.662-1.322-1.112-2.102-1.45-.766-.325-1.73-.504-3.01-.561C15.524.015 15.115 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-8 3.999 3.999 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0-2.88 1.44 1.44 0 0 0 0 2.88z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-image">
+          <img src="public/PXL_20250206_162914543.MP.jpg" alt="Profile Photo" />
+        </div>
+      </div>
+
+      <div class="scroll-indicator">
+        <div class="mouse-shape">
+          <div class="mouse-wheel"></div>
+        </div>
+        <span class="scroll-text">Scroll</span>
+      </div>
+    </section>
+
+    <!-- Next Section (BSC section with reveal animation) -->
+    <section class="next-section">
+      <div class="section-heading reveal-element">
+        <h1>BSC</h1>
+      </div>
+      
+      <div class="BSC-left reveal-element">
+        <p>
+        <br>This is the next section content. This is the next section content. 
+        This is the next section content. This is the next section content. 
+        This is the next section content. This is the next section content. 
+        This is the next section content. This is the next section content. 
+        This is the next section content. This is the next section content.
+        </p>
+      </div>
+      
+      <div class="BSC-right reveal-element">
+        <div class="carousel">
+          <div class="carousel-container">
+            <div class="carousel-slide active">
+              <img src="public/PXL_20250206_162914543.MP.jpg" alt="Event Photo 1"/>
+            </div>
+            <div class="carousel-slide">
+              <img src="public/PXL_20250206_162914543.MP.jpg" alt="Event Photo 2"/>
+            </div>
+            <div class="carousel-slide">
+              <img src="public/PXL_20250206_162914543.MP.jpg" alt="Event Photo 3"/>
+            </div>
+            <div class="carousel-slide">
+              <img src="public/PXL_20250206_162914543.MP.jpg" alt="Event Photo 4"/>
+            </div>
+          </div>
+          
+          <button class="carousel-button prev" aria-label="Previous slide">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6"></path>
+            </svg>
+          </button>
+          
+          <button class="carousel-button next" aria-label="Next slide">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 18l6-6-6-6"></path>
+            </svg>
+          </button>
+          
+          <div class="carousel-indicators">
+            <button class="indicator active" data-slide="0" aria-label="Go to slide 1"></button>
+            <button class="indicator" data-slide="1" aria-label="Go to slide 2"></button>
+            <button class="indicator" data-slide="2" aria-label="Go to slide 3"></button>
+            <button class="indicator" data-slide="3" aria-label="Go to slide 4"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <Footer />
+    
+    <!-- Carousel CSS -->
+  
+
+    <!-- Inline JavaScript for functionality -->
+    <script is:inline>
+      // Execute when content is loaded
+      document.addEventListener("DOMContentLoaded", function() {
+        // Smooth scroll function
+        const scrollIndicator = document.querySelector(".scroll-indicator");
+        const nextSection = document.querySelector(".next-section");
+        
+        if (scrollIndicator && nextSection) {
+          scrollIndicator.addEventListener("click", function() {
+            nextSection.scrollIntoView({ behavior: "smooth" });
+          });
+        }
+    
+        // Reveal elements on scroll
+        const revealElements = document.querySelectorAll(".reveal-element");
+        
+        function checkScroll() {
+          const windowHeight = window.innerHeight;
+          revealElements.forEach(element => {
+            const elementTop = element.getBoundingClientRect().top;
+            if (elementTop < windowHeight - 100) {
+              element.classList.add("revealed");
+            }
+          });
+        }
+    
+        // Initial check
+        checkScroll();
+        
+        // Check on scroll
+        window.addEventListener("scroll", checkScroll);
+    
+        // Carousel functionality
+        const carousel = document.querySelector(".carousel");
+        
+        if (carousel) {
+          const container = carousel.querySelector(".carousel-container");
+          const slides = carousel.querySelectorAll(".carousel-slide");
+          const prevButton = carousel.querySelector(".prev");
+          const nextButton = carousel.querySelector(".next");
+          const indicators = carousel.querySelectorAll(".indicator");
+          
+          let currentIndex = 0;
+          let touchStartX = 0;
+          let touchEndX = 0;
+          let autoplayInterval;
+          
+          // Function to update the carousel display
+          function updateCarousel() {
+            // Update transform to show the current slide
+            container.style.transform = `translateX(-${currentIndex * 100}%)`;
+            
+            // Update active states
+            slides.forEach((slide, index) => {
+              slide.classList.toggle("active", index === currentIndex);
+            });
+            
+            indicators.forEach((dot, index) => {
+              dot.classList.toggle("active", index === currentIndex);
+            });
+          }
+          
+          // Function to go to the next slide
+          function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateCarousel();
+          }
+          
+          // Function to go to the previous slide
+          function prevSlide() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            updateCarousel();
+          }
+          
+          // Function to go to a specific slide
+          function goToSlide(index) {
+            currentIndex = index;
+            updateCarousel();
+            resetAutoplay();
+          }
+          
+          // Start autoplay
+          function startAutoplay() {
+            autoplayInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+          }
+          
+          // Reset autoplay (used after manual navigation)
+          function resetAutoplay() {
+            clearInterval(autoplayInterval);
+            startAutoplay();
+          }
+          
+          // Touch events for swipe functionality on mobile
+          container.addEventListener("touchstart", (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+          });
+          
+          container.addEventListener("touchend", (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+          });
+          
+          function handleSwipe() {
+            // Minimum distance required for a swipe (pixels)
+            const swipeThreshold = 50;
+            
+            if (touchEndX < touchStartX - swipeThreshold) {
+              // Swipe left - show next slide
+              nextSlide();
+              resetAutoplay();
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+              // Swipe right - show previous slide
+              prevSlide();
+              resetAutoplay();
+            }
+          }
+          
+          // Add event listeners for buttons and indicators
+          if (nextButton) {
+            nextButton.addEventListener("click", () => {
+              nextSlide();
+              resetAutoplay();
+            });
+          }
+          
+          if (prevButton) {
+            prevButton.addEventListener("click", () => {
+              prevSlide();
+              resetAutoplay();
+            });
+          }
+          
+          indicators.forEach((dot, index) => {
+            dot.addEventListener("click", () => {
+              goToSlide(index);
+            });
+          });
+          
+          // Pause autoplay when hovering over the carousel
+          carousel.addEventListener("mouseenter", () => {
+            clearInterval(autoplayInterval);
+          });
+          
+          carousel.addEventListener("mouseleave", () => {
+            startAutoplay();
+          });
+          
+          // Start the autoplay when the page loads
+          startAutoplay();
+        }
+      });
+    </script>
+  </body>
+</html>
