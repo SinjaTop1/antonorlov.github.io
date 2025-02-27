@@ -1,6 +1,8 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import '../styles/index.css';
 ---
@@ -13,63 +15,9 @@ import '../styles/index.css';
   </head>
   <body>
     <!-- Navigation -->
-    <header class="nav">
-      <nav>
-        <ul>
-          <li><a href="#">Resume</a></li>
-          <div class="logo">
-            <a href="#home"><strong>Anton Orlov</strong></a>
-          </div>
-          <li><a href="#">Projects</a></li>
-        </ul>
-        <div class="divider"></div>
-      </nav>
-    </header>
+    <Header />
 
-    <!-- Hero / Intro Section -->
-    <section class="hero" id="home">
-      <div class="hero-left">
-        <h1 class="name">
-          Hello,
-        </h1>
-        <h2 class="tagline">
-          I am Entrepreneur and student,
-        </h2>
-        <p class="summary">
-           I have experience working on multiple projects and am currently leading one.<br><br>
-           I've traveled the world and had the privilege of building successful teams from the ground up.<br><br>
-           My passion lies in creation and innovation, and my dream is to empower others to do the same.
-        </p>
-        <!-- Link circles with official LinkedIn and Instagram logos -->
-        <div class="link-circles">
-          <a href="https://www.linkedin.com/in/anton-orlov-b16126269/" class="circle-link" aria-label="LinkedIn" target="_blank">
-            <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <title>LinkedIn</title>
-              <path fill="#ffffff" d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11.5 20h-3v-9h3v9zm-1.5-10.25c-.966 0-1.75-.784-1.75-1.75S5.534 6.5 6.5 6.5s1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm13 10.25h-3v-4.5c0-1.08-.02-2.47-1.5-2.47-1.5 0-1.73 1.17-1.73 2.38v4.59h-3v-9h2.89v1.23h.04c.403-.76 1.387-1.56 2.855-1.56 3.053 0 3.62 2.008 3.62 4.62v4.71z"/>
-            </svg>
-          </a>
-          <a href="https://www.instagram.com/orochiyo?igsh=MXd4MW9sMHN6czI2eQ==" class="circle-link" aria-label="Instagram" target="_blank">
-            <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <title>Instagram</title>
-              <path fill="#ffffff" d="M12 2.2c3.1 0 3.5 0 4.7.1 1.2.1 1.9.3 2.3.5.6.2 1 .5 1.5 1 .5.5.8.9 1 1.5.2.4.4 1.1.5 2.3.1 1.2.1 1.6.1 4.7s0 3.5-.1 4.7c-.1 1.2-.3 1.9-.5 2.3-.2.6-.5 1-.9 1.5-.5.5-.9.8-1.5 1-.4.2-1.1.4-2.3.5-1.2.1-1.6.1-4.7.1s-3.5 0-4.7-.1c-1.2-.1-1.9-.3-2.3-.5-.6-.2-1-.5-1.5-1-.5-.5-.8-.9-1-1.5-.2-.4-.4-1.1-.5-2.3-.1-1.2-.1-1.6-.1-4.7s0-3.5.1-4.7c.1-1.2.3-1.9.5-2.3.2-.6.5-1 1-1.5.5-.5.9-.8 1.5-1 .4-.2 1.1-.4 2.3-.5 1.2-.1 1.6-.1 4.7-.1M12 0C8.741 0 8.332.015 7.052.072 5.771.129 4.807.308 4.042.633c-.78.337-1.44.787-2.102 1.45C1.278 2.747.828 3.407.49 4.187.166 4.952-.013 5.915-.07 7.196-.127 8.476-.142 8.885-.142 12c0 3.115.015 3.524.072 4.804.057 1.281.236 2.244.561 3.01.337.78.787 1.44 1.45 2.102.662.662 1.322 1.112 2.102 1.45.766.325 1.73.504 3.01.561 1.28.057 1.689.072 4.804.072s3.524-.015 4.804-.072c1.281-.057 2.244-.236 3.01-.561.78-.337 1.44-.787 2.102-1.45.662-.662 1.112-1.322 1.45-2.102.325-.766.504-1.73.561-3.01.057-1.28.072-1.689.072-4.804s-.015-3.524-.072-4.804c-.057-1.281-.236-2.244-.561-3.01-.337-.78-.787-1.44-1.45-2.102-.662-.662-1.322-1.112-2.102-1.45-.766-.325-1.73-.504-3.01-.561C15.524.015 15.115 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-8 3.999 3.999 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0-2.88 1.44 1.44 0 0 0 0 2.88z"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <div class="hero-right">
-        <div class="hero-image">
-          <img src="/PXL_20250206_162914543.MP.jpg" alt="Profile Photo" />
-        </div>
-      </div>
-
-      <div class="scroll-indicator">
-        <div class="mouse-shape">
-          <div class="mouse-wheel"></div>
-        </div>
-        <span class="scroll-text">Scroll</span>
-      </div>
-    </section>
+    <Hero />
 
     <!-- Next Section (BSC section with reveal animation) -->
     <section class="next-section">
