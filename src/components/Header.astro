@@ -1,78 +1,259 @@
----
----
-
 <header class="nav">
 	<nav>
-	  <ul>
-		<li><a href="#">Resume</a></li>
-		<div class="logo">
-		  <a href="#home"><strong>Anton Orlov</strong></a>
+	  <div class="nav-content">
+		<div class="social-links left">
+		  <a href="https://www.linkedin.com/in/anton-orlov-b16126269/" class="social-link" aria-label="LinkedIn" target="_blank">
+			<svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+			  <title>LinkedIn</title>
+			  <path fill="#ffffff" d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11.5 20h-3v-9h3v9zm-1.5-10.25c-.966 0-1.75-.784-1.75-1.75S5.534 6.5 6.5 6.5s1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm13 10.25h-3v-4.5c0-1.08-.02-2.47-1.5-2.47-1.5 0-1.73 1.17-1.73 2.38v4.59h-3v-9h2.89v1.23h.04c.403-.76 1.387-1.56 2.855-1.56 3.053 0 3.62 2.008 3.62 4.62v4.71z"/>
+			</svg>
+		  </a>
 		</div>
-		<li><a href="#">Projects</a></li>
-	  </ul>
+		
+		<div class="logo-container">
+		  <a href="#home" class="logo">Anton Orlov</a>
+		</div>
+		
+		<div class="social-links right">
+		  <a href="https://www.instagram.com/orochiyo?igsh=MXd4MW9sMHN6czI2eQ==" class="social-link" aria-label="Instagram" target="_blank">
+			<svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+			  <title>Instagram</title>
+			  <path fill="#ffffff" d="M12 2.2c3.1 0 3.5 0 4.7.1 1.2.1 1.9.3 2.3.5.6.2 1 .5 1.5 1 .5.5.8.9 1 1.5.2.4.4 1.1.5 2.3.1 1.2.1 1.6.1 4.7s0 3.5-.1 4.7c-.1 1.2-.3 1.9-.5 2.3-.2.6-.5 1-.9 1.5-.5.5-.9.8-1.5 1-.4.2-1.1.4-2.3.5-1.2.1-1.6.1-4.7.1s-3.5 0-4.7-.1c-1.2-.1-1.9-.3-2.3-.5-.6-.2-1-.5-1.5-1-.5-.5-.8-.9-1-1.5-.2-.4-.4-1.1-.5-2.3-.1-1.2-.1-1.6-.1-4.7s0-3.5.1-4.7c.1-1.2.3-1.9.5-2.3.2-.6.5-1 1-1.5.5-.5.9-.8 1.5-1 .4-.2 1.1-.4 2.3-.5 1.2-.1 1.6-.1 4.7-.1M12 0C8.741 0 8.332.015 7.052.072 5.771.129 4.807.308 4.042.633c-.78.337-1.44.787-2.102 1.45C1.278 2.747.828 3.407.49 4.187.166 4.952-.013 5.915-.07 7.196-.127 8.476-.142 8.885-.142 12c0 3.115.015 3.524.072 4.804.057 1.281.236 2.244.561 3.01.337.78.787 1.44 1.45 2.102.662.662 1.322 1.112 2.102 1.45.766.325 1.73.504 3.01.561 1.28.057 1.689.072 4.804.072s3.524-.015 4.804-.072c1.281-.057 2.244-.236 3.01-.561.78-.337 1.44-.787 2.102-1.45.662-.662 1.112-1.322 1.45-2.102.325-.766.504-1.73.561-3.01.057-1.28.072-1.689.072-4.804s-.015-3.524-.072-4.804c-.057-1.281-.236-2.244-.561-3.01-.337-.78-.787-1.44-1.45-2.102-.662-.662-1.322-1.112-2.102-1.45-.766-.325-1.73-.504-3.01-.561C15.524.015 15.115 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-8 3.999 3.999 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0-2.88 1.44 1.44 0 0 0 0 2.88z"/>
+			</svg>
+		  </a>
+		</div>
+	  </div>
+	  
 	  <div class="divider"></div>
 	</nav>
   </header>
-
+  
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+	const socialLeft = document.querySelector('.social-links.left');
+	const socialRight = document.querySelector('.social-links.right');
+	const logo = document.querySelector('.logo-container');
+	const navContent = document.querySelector('.nav-content');
+	
+	// Add null checks before accessing properties
+	if (socialLeft && socialRight && logo && navContent) {
+	  // Initially hide the social links
+	  socialLeft.classList.add('hidden');
+	  socialRight.classList.add('hidden');
+	  
+	  // Show logo centered
+	  navContent.classList.add('centered-mode');
+	  
+	  // Scroll event handler
+	  window.addEventListener('scroll', function() {
+		// Show social links after scrolling a bit (100px)
+		if (window.scrollY > 100) {
+		  socialLeft.classList.remove('hidden');
+		  socialRight.classList.remove('hidden');
+		  navContent.classList.remove('centered-mode');
+		} else {
+		  socialLeft.classList.add('hidden');
+		  socialRight.classList.add('hidden');
+		  navContent.classList.add('centered-mode');
+		}
+	  });
+	} else {
+	  console.warn('One or more navigation elements not found');
+	}
+  });
+  </script>
+  
   <style>
 	/* NAVIGATION */
-.nav {
-  font-family: 'Roboto', sans-serif;
-  position: sticky;  /* Keeps the nav at the top on scroll */
-  top: 0;
-  z-index: 999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem 2rem 0.2rem 2rem;
-  background: #161616;
-  width: 100%;
-}
-
-nav ul {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  list-style: none;
-  transition: color 0.3s ease;
-  width: 100%;
-  justify-content: center;
-}
-
-nav a {
-  color: #fcfcfc;            
-  transition: color 0.3s ease;
-}
-
-nav a:hover {
-  color: #d38f41;
-  opacity: 1;                
-}
-
-nav li {
-  display: inline-block;
-}
-
-.logo {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
-  font-size: 1.8rem;
-  letter-spacing: 0.05rem;
-  margin: 0 1.5rem;
-}
-
-/* The divider under the nav */
-.divider {
-  position: relative;
-  height: 2px;
-  background-color: #d38f41;
-  width: 0%;                /* start at 0% for the animation */
-  animation: slideIn 1s forwards;
-}
-
-@keyframes slideIn {
-  0%   { width: 0%; }
-  100% { width: 100%; }
-}
-
+	.nav {
+	  font-family: 'Roboto', sans-serif;
+	  position: sticky;
+	  top: 0;
+	  z-index: 999;
+	  width: 100%;
+	  background: #161616;
+	  padding: 0.6rem 1rem 0.3rem 1rem; /* Added padding at bottom for divider */
+	}
+  
+	nav {
+	  max-width: 1200px;
+	  margin: 0 auto;
+	  width: 100%;
+	  position: relative;
+	  display: flex;
+	  flex-direction: column;
+	}
+	
+	.nav-content {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  position: relative;
+	  transition: all 0.5s ease;
+	  gap: 15px; /* Space between elements */
+	}
+	
+	.nav-content.centered-mode {
+	  justify-content: center;
+	}
+	
+	.nav-content.centered-mode .social-links {
+	  position: absolute;
+	  width: 38px;
+	}
+	
+	.nav-content.centered-mode .social-links.left {
+	  right: calc(50% + 100px);
+	}
+	
+	.nav-content.centered-mode .social-links.right {
+	  left: calc(50% + 100px);
+	}
+  
+	.logo-container {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  padding: 0.2rem 0;
+	  transition: all 0.5s ease;
+	}
+  
+	.logo {
+	  font-family: 'Roboto', sans-serif;
+	  font-weight: 400;
+	  font-size: 1.3rem;
+	  letter-spacing: 0.05rem;
+	  color: #ffffff;
+	  background-color: transparent;
+	  padding: 0.3rem 1.2rem;
+	  border: 2px solid #ffffffac;
+	  border-radius: 2.5px;
+	  text-decoration: none;
+	  transition: all 0.3s ease;
+	  display: inline-block;
+	  line-height: 1.2;
+	  white-space: nowrap;
+	}
+  
+	.logo:hover {
+	  border-color: #d38f41;
+	  color: #d38f41;
+	}
+  
+	/* Social links */
+	.social-links {
+	  display: flex;
+	  align-items: center;
+	  transition: all 0.5s ease;
+	}
+  
+	.social-links.hidden {
+	  opacity: 0;
+	  pointer-events: none;
+	}
+	
+	.social-links.hidden.left {
+	  transform: translateX(20px);
+	}
+	
+	.social-links.hidden.right {
+	  transform: translateX(-20px);
+	}
+  
+	.social-link {
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  width: 38px;
+	  height: 38px;
+	  border-radius: 50%;
+	  background-color: #955f21;
+	  transition: all 0.3s ease;
+	}
+  
+	.social-link svg {
+	  width: 22px;
+	  height: 22px;
+	}
+  
+	.social-link:hover {
+	  background-color: #d38f41;
+	  transform: translateY(-3px);
+	  box-shadow: 0 5px 15px rgba(211, 143, 65, 0.4);
+	}
+  
+	/* The divider under the nav */
+	.divider {
+	  position: relative;
+	  height: 1.5px;
+	  background-color: #d38f41;
+	  width: 0%;
+	  animation: slideIn 1s forwards;
+	  margin-top: 0.5rem;
+	}
+  
+	@keyframes slideIn {
+	  0%   { width: 0%; }
+	  100% { width: 100%; }
+	}
+  
+	/* Responsive adjustments */
+	@media (max-width: 768px) {
+	  .nav {
+		padding: 0.5rem 0.8rem 0.3rem 0.8rem;
+	  }
+	  
+	  .logo {
+		font-size: 1.2rem;
+		padding: 0.25rem 0.8rem;
+	  }
+	  
+	  .social-link {
+		width: 34px;
+		height: 34px;
+	  }
+	  
+	  .social-link svg {
+		width: 20px;
+		height: 20px;
+	  }
+	  
+	  .nav-content.centered-mode .social-links.left {
+		right: calc(50% + 80px);
+	  }
+	  
+	  .nav-content.centered-mode .social-links.right {
+		left: calc(50% + 80px);
+	  }
+	}
+  
+	@media (max-width: 480px) {
+	  .nav {
+		padding: 0.4rem 0.6rem 0.3rem 0.6rem;
+	  }
+	  
+	  .logo {
+		font-size: 1rem;
+		padding: 0.2rem 0.6rem;
+		border-width: 2px;
+	  }
+	  
+	  .social-link {
+		width: 30px;
+		height: 30px;
+	  }
+	  
+	  .social-link svg {
+		width: 16px;
+		height: 16px;
+	  }
+	  
+	  .nav-content.centered-mode .social-links.left {
+		right: calc(50% + 70px);
+	  }
+	  
+	  .nav-content.centered-mode .social-links.right {
+		left: calc(50% + 70px);
+	  }
+	}
   </style>
