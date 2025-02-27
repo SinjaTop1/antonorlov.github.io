@@ -1,0 +1,220 @@
+---
+import Footer from '../components/Footer.astro';
+---
+
+<section class="next-section">
+    <div class="section-heading reveal-element">
+      <h1>BSC</h1>
+    </div>
+    
+    <div class="BSC-left reveal-element">
+      <p>
+      <br>This is the next section content. This is the next section content. 
+      This is the next section content. This is the next section content. 
+      This is the next section content. This is the next section content. 
+      This is the next section content. This is the next section content. 
+      This is the next section content. This is the next section content.
+      </p>
+    </div>
+    
+    <div class="BSC-right reveal-element">
+      <div class="carousel">
+        <div class="carousel-container">
+          <div class="carousel-slide active">
+            <img src="/PXL_20250206_162914543.MP.jpg" alt="Event Photo 1"/>
+          </div>
+          <div class="carousel-slide">
+            <img src="/PXL_20250206_162914543.MP.jpg" alt="Event Photo 2"/>
+          </div>
+          <div class="carousel-slide">
+            <img src="/PXL_20250206_162914543.MP.jpg" alt="Event Photo 3"/>
+          </div>
+          <div class="carousel-slide">
+            <img src="/PXL_20250206_162914543.MP.jpg" alt="Event Photo 4"/>
+          </div>
+        </div>
+        
+        <button class="carousel-button prev" aria-label="Previous slide">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6"></path>
+          </svg>
+        </button>
+        
+        <button class="carousel-button next" aria-label="Next slide">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 18l6-6-6-6"></path>
+          </svg>
+        </button>
+        
+        <div class="carousel-indicators">
+          <button class="indicator active" data-slide="0" aria-label="Go to slide 1"></button>
+          <button class="indicator" data-slide="1" aria-label="Go to slide 2"></button>
+          <button class="indicator" data-slide="2" aria-label="Go to slide 3"></button>
+          <button class="indicator" data-slide="3" aria-label="Go to slide 4"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  
+  <!-- Carousel CSS -->
+
+
+  <!-- Inline JavaScript for functionality -->
+  <script is:inline>
+import Footer from "./Footer.astro";
+
+    // Execute when content is loaded
+    document.addEventListener("DOMContentLoaded", function() {
+      // Smooth scroll function
+      const scrollIndicator = document.querySelector(".scroll-indicator");
+      const nextSection = document.querySelector(".next-section");
+      
+      if (scrollIndicator && nextSection) {
+        scrollIndicator.addEventListener("click", function() {
+          nextSection.scrollIntoView({ behavior: "smooth" });
+        });
+      }
+  
+      // Reveal elements on scroll
+      const revealElements = document.querySelectorAll(".reveal-element");
+      
+      function checkScroll() {
+        const windowHeight = window.innerHeight;
+        revealElements.forEach(element => {
+          const elementTop = element.getBoundingClientRect().top;
+          if (elementTop < windowHeight - 100) {
+            element.classList.add("revealed");
+          }
+        });
+      }
+
+      <Footer />    
+  
+      // Initial check
+      checkScroll();
+      
+      // Check on scroll
+      window.addEventListener("scroll", checkScroll);
+  
+      // Carousel functionality
+      const carousel = document.querySelector(".carousel");
+      
+      if (carousel) {
+        const container = carousel.querySelector(".carousel-container");
+        const slides = carousel.querySelectorAll(".carousel-slide");
+        const prevButton = carousel.querySelector(".prev");
+        const nextButton = carousel.querySelector(".next");
+        const indicators = carousel.querySelectorAll(".indicator");
+        
+        let currentIndex = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let autoplayInterval;
+        
+        // Function to update the carousel display
+        function updateCarousel() {
+          // Update transform to show the current slide
+          container.style.transform = `translateX(-${currentIndex * 100}%)`;
+          
+          // Update active states
+          slides.forEach((slide, index) => {
+            slide.classList.toggle("active", index === currentIndex);
+          });
+          
+          indicators.forEach((dot, index) => {
+            dot.classList.toggle("active", index === currentIndex);
+          });
+        }
+        
+        // Function to go to the next slide
+        function nextSlide() {
+          currentIndex = (currentIndex + 1) % slides.length;
+          updateCarousel();
+        }
+        
+        // Function to go to the previous slide
+        function prevSlide() {
+          currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+          updateCarousel();
+        }
+        
+        // Function to go to a specific slide
+        function goToSlide(index) {
+          currentIndex = index;
+          updateCarousel();
+          resetAutoplay();
+        }
+        
+        // Start autoplay
+        function startAutoplay() {
+          autoplayInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+        }
+        
+        // Reset autoplay (used after manual navigation)
+        function resetAutoplay() {
+          clearInterval(autoplayInterval);
+          startAutoplay();
+        }
+        
+        // Touch events for swipe functionality on mobile
+        container.addEventListener("touchstart", (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        container.addEventListener("touchend", (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          handleSwipe();
+        });
+        
+        function handleSwipe() {
+          // Minimum distance required for a swipe (pixels)
+          const swipeThreshold = 50;
+          
+          if (touchEndX < touchStartX - swipeThreshold) {
+            // Swipe left - show next slide
+            nextSlide();
+            resetAutoplay();
+          } else if (touchEndX > touchStartX + swipeThreshold) {
+            // Swipe right - show previous slide
+            prevSlide();
+            resetAutoplay();
+          }
+        }
+        
+        // Add event listeners for buttons and indicators
+        if (nextButton) {
+          nextButton.addEventListener("click", () => {
+            nextSlide();
+            resetAutoplay();
+          });
+        }
+        
+        if (prevButton) {
+          prevButton.addEventListener("click", () => {
+            prevSlide();
+            resetAutoplay();
+          });
+        }
+        
+        indicators.forEach((dot, index) => {
+          dot.addEventListener("click", () => {
+            goToSlide(index);
+          });
+        });
+        
+        // Pause autoplay when hovering over the carousel
+        carousel.addEventListener("mouseenter", () => {
+          clearInterval(autoplayInterval);
+        });
+        
+        carousel.addEventListener("mouseleave", () => {
+          startAutoplay();
+        });
+        
+        // Start the autoplay when the page loads
+        startAutoplay();
+      }
+    });
+  </script>
