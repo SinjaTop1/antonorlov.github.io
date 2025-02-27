@@ -202,7 +202,7 @@ nav li {
   flex-wrap: wrap;
   padding: 4rem 2rem;
   min-height: 100vh;
-  background-color: #f8f9fa;
+  background-color: #ffffffc4;
 }
 
 .section-heading {
@@ -227,7 +227,7 @@ nav li {
   transform: translateX(-50%);
   width: 60px;
   height: 3px;
-  background-color: #4a76b8;
+  background-color: #d38f41;
 }
 
 .BSC-left {
@@ -245,9 +245,15 @@ nav li {
 }
 
 .BSC-left h2 {
-  color: #4a76b8;
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
+  background: linear-gradient(270deg, #d38f41, #ff6600, #64155f);
+  background-size: 400% 400%;
+  animation: gradientAnimation 5s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 .mission-statement {
@@ -287,12 +293,15 @@ nav li {
 .cta-button {
   display: inline-block;
   padding: 0.8rem 1.5rem;
-  background-color: #4a76b8;
-  color: white;
   text-decoration: none;
   border-radius: 4px;
   font-weight: 600;
   transition: background-color 0.3s ease;
+  background: linear-gradient(270deg, #d38f41, #ff6600, #64155f);
+  background-size: 400% 400%;
+  animation: gradientAnimation 5s ease infinite;
+  color: white; /* Changed from transparent to white */
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3); /* Optional: adds a subtle shadow for better readability */
 }
 
 .cta-button:hover {
