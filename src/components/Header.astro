@@ -25,7 +25,7 @@
 	  </div>
 	  
 	  <div class="cv-button-container">
-		<a href="/Anton_Orlov_CV.pdf" class="cv-button" download>
+		<a href="/Anton_Orlov_CV.pdf" class="cv-button" download aria-label="Download CV">
 		  <span>Download CV</span>
 		  <svg class="download-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
 			<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15V3m0 12l-4-4m4 4l4-4M2 17v4h20v-4"/>
@@ -55,21 +55,31 @@
 	  // Show logo centered
 	  navContent.classList.add('centered-mode');
 	  
-	  // Scroll event handler
+	  // Use passive listener for better mobile performance
+	  // Throttle scroll events for smoother performance
+	  let lastScrollTime = 0;
+	  const scrollThreshold = 100; // ms between scroll events
+	  
 	  window.addEventListener('scroll', function() {
-		// Show social links after scrolling a bit (100px)
-		if (window.scrollY > 100) {
-		  socialLeft.classList.remove('hidden');
-		  socialRight.classList.remove('hidden');
-		  cvButton.classList.remove('hidden');
-		  navContent.classList.remove('centered-mode');
-		} else {
-		  socialLeft.classList.add('hidden');
-		  socialRight.classList.add('hidden');
-		  cvButton.classList.add('hidden');
-		  navContent.classList.add('centered-mode');
-		}
-	  });
+		const now = Date.now();
+		if (now - lastScrollTime < scrollThreshold) return;
+		lastScrollTime = now;
+		
+		// Use requestAnimationFrame for smoother UI updates
+		requestAnimationFrame(function() {
+		  if (window.scrollY > 100) {
+			socialLeft.classList.remove('hidden');
+			socialRight.classList.remove('hidden');
+			cvButton.classList.remove('hidden');
+			navContent.classList.remove('centered-mode');
+		  } else {
+			socialLeft.classList.add('hidden');
+			socialRight.classList.add('hidden');
+			cvButton.classList.add('hidden');
+			navContent.classList.add('centered-mode');
+		  }
+		});
+	  }, { passive: true });
 	} else {
 	  console.warn('One or more navigation elements not found');
 	}
@@ -85,7 +95,10 @@
 	  z-index: 999;
 	  width: 100%;
 	  background: #161616;
-	  padding: 0.6rem 1rem 0.3rem 1rem; /* Added padding at bottom for divider */
+	  padding: 0.6rem 1rem 0.3rem 1rem;
+	  /* Hardware acceleration for smoother performance */
+	  transform: translateZ(0);
+	  will-change: transform;
 	}
   
 	nav {
@@ -102,8 +115,9 @@
 	  justify-content: center;
 	  align-items: center;
 	  position: relative;
-	  transition: all 0.5s ease;
-	  gap: 15px; /* Space between elements */
+	  transition: all 0.3s ease;
+	  gap: 15px;
+	  will-change: transform;
 	}
 	
 	.nav-content.centered-mode {
@@ -113,6 +127,8 @@
 	.nav-content.centered-mode .social-links {
 	  position: absolute;
 	  width: 38px;
+	  /* Prevent position calculation on mobile */
+	  transform: translateZ(0);
 	}
 	
 	.nav-content.centered-mode .social-links.left {
@@ -128,7 +144,7 @@
 	  justify-content: center;
 	  align-items: center;
 	  padding: 0.2rem 0;
-	  transition: all 0.5s ease;
+	  transition: all 0.3s ease;
 	}
   
 	.logo {
@@ -157,7 +173,8 @@
 	.social-links {
 	  display: flex;
 	  align-items: center;
-	  transition: all 0.5s ease;
+	  transition: all 0.3s ease;
+	  will-change: transform, opacity;
 	}
   
 	.social-links.hidden {
@@ -200,7 +217,8 @@
 	  position: absolute;
 	  top: 0.2rem;
 	  right: 0;
-	  transition: all 0.5s ease;
+	  transition: all 0.3s ease;
+	  will-change: transform, opacity;
 	}
 	
 	.cv-button-container.hidden {
@@ -221,6 +239,8 @@
 	  font-weight: 500;
 	  transition: all 0.3s ease;
 	  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+	  /* Better touch target for mobile */
+	  touch-action: manipulation;
 	}
 	
 	.cv-button:hover {
@@ -316,37 +336,29 @@
 	  }
 	  
 	  .nav-content.centered-mode .social-links.left {
-		right: calc(50% + 70px);
+		right: calc(50% + 60px);
 	  }
 	  
 	  .nav-content.centered-mode .social-links.right {
-		left: calc(50% + 70px);
+		left: calc(50% + 60px);
 	  }
 	  
 	  .cv-button {
 		font-size: 0.7rem;
-		padding: 0.3rem 0.6rem;
-	  }
-	  
-	  .download-arrow {
-		width: 16px;
-		height: 16px;
-		margin-left: 4px;
+		padding: 0;
+		border-radius: 50%;
+		width: 36px;
+		height: 36px;
+		justify-content: center;
 	  }
 	  
 	  .cv-button span {
 		display: none;
 	  }
 	  
-	  .cv-button {
-		border-radius: 50%;
-		width: 36px;
-		height: 36px;
-		justify-content: center;
-		padding: 0;
-	  }
-	  
 	  .download-arrow {
+		width: 16px;
+		height: 16px;
 		margin-left: 0;
 	  }
 	}
