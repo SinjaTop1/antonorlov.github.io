@@ -24,6 +24,15 @@
 		</div>
 	  </div>
 	  
+	  <div class="cv-button-container">
+		<a href="/Anton_Orlov_CV.pdf" class="cv-button" download>
+		  <span>Download CV</span>
+		  <svg class="download-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+			<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15V3m0 12l-4-4m4 4l4-4M2 17v4h20v-4"/>
+		  </svg>
+		</a>
+	  </div>
+	  
 	  <div class="divider"></div>
 	</nav>
   </header>
@@ -34,12 +43,14 @@
 	const socialRight = document.querySelector('.social-links.right');
 	const logo = document.querySelector('.logo-container');
 	const navContent = document.querySelector('.nav-content');
+	const cvButton = document.querySelector('.cv-button-container');
 	
 	// Add null checks before accessing properties
-	if (socialLeft && socialRight && logo && navContent) {
-	  // Initially hide the social links
+	if (socialLeft && socialRight && logo && navContent && cvButton) {
+	  // Initially hide the social links and CV button
 	  socialLeft.classList.add('hidden');
 	  socialRight.classList.add('hidden');
+	  cvButton.classList.add('hidden');
 	  
 	  // Show logo centered
 	  navContent.classList.add('centered-mode');
@@ -50,10 +61,12 @@
 		if (window.scrollY > 100) {
 		  socialLeft.classList.remove('hidden');
 		  socialRight.classList.remove('hidden');
+		  cvButton.classList.remove('hidden');
 		  navContent.classList.remove('centered-mode');
 		} else {
 		  socialLeft.classList.add('hidden');
 		  socialRight.classList.add('hidden');
+		  cvButton.classList.add('hidden');
 		  navContent.classList.add('centered-mode');
 		}
 	  });
@@ -181,6 +194,49 @@
 	  transform: translateY(-3px);
 	  box-shadow: 0 5px 15px rgba(211, 143, 65, 0.4);
 	}
+	
+	/* CV Button */
+	.cv-button-container {
+	  position: absolute;
+	  top: 0.2rem;
+	  right: 0;
+	  transition: all 0.5s ease;
+	}
+	
+	.cv-button-container.hidden {
+	  opacity: 0;
+	  transform: translateX(30px);
+	  pointer-events: none;
+	}
+	
+	.cv-button {
+	  display: flex;
+	  align-items: center;
+	  padding: 0.5rem 1rem;
+	  background: linear-gradient(270deg, #d38f41, #955f21);
+	  color: white;
+	  border-radius: 4px;
+	  text-decoration: none;
+	  font-size: 0.9rem;
+	  font-weight: 500;
+	  transition: all 0.3s ease;
+	  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+	}
+	
+	.cv-button:hover {
+	  transform: translateY(-3px);
+	  box-shadow: 0 4px 8px rgba(211, 143, 65, 0.5);
+	}
+	
+	.download-arrow {
+	  margin-left: 8px;
+	  stroke: white;
+	  transition: transform 0.3s ease;
+	}
+	
+	.cv-button:hover .download-arrow {
+	  transform: translateY(3px);
+	}
   
 	/* The divider under the nav */
 	.divider {
@@ -225,6 +281,17 @@
 	  .nav-content.centered-mode .social-links.right {
 		left: calc(50% + 80px);
 	  }
+	  
+	  .cv-button {
+		font-size: 0.8rem;
+		padding: 0.4rem 0.8rem;
+	  }
+	  
+	  .download-arrow {
+		width: 20px;
+		height: 20px;
+		margin-left: 6px;
+	  }
 	}
   
 	@media (max-width: 480px) {
@@ -254,6 +321,33 @@
 	  
 	  .nav-content.centered-mode .social-links.right {
 		left: calc(50% + 70px);
+	  }
+	  
+	  .cv-button {
+		font-size: 0.7rem;
+		padding: 0.3rem 0.6rem;
+	  }
+	  
+	  .download-arrow {
+		width: 16px;
+		height: 16px;
+		margin-left: 4px;
+	  }
+	  
+	  .cv-button span {
+		display: none;
+	  }
+	  
+	  .cv-button {
+		border-radius: 50%;
+		width: 36px;
+		height: 36px;
+		justify-content: center;
+		padding: 0;
+	  }
+	  
+	  .download-arrow {
+		margin-left: 0;
 	  }
 	}
   </style>

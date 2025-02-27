@@ -247,27 +247,81 @@
 
 .section-heading {
   width: 100%;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   text-align: center;
+  position: relative;
 }
 
 .section-heading h1 {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   font-weight: 700;
   color: #ffffff;
   position: relative;
   display: inline-block;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0 1rem;
 }
 
-.section-heading h1::after {
+.section-heading::before,
+.section-heading::after {
   content: "";
   position: absolute;
-  bottom: -10px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #d38f41 50%, transparent);
+  width: 80%;
+  max-width: 400px;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background-color: #d38f41;
+}
+
+.section-heading::before {
+  top: -15px;
+}
+
+.section-heading::after {
+  bottom: -15px;
+}
+
+/* Added subtle animation for the heading */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-element.revealed .section-heading h1 {
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .section-heading h1 {
+    font-size: 2.8rem;
+  }
+  
+  .section-heading::before,
+  .section-heading::after {
+    width: 70%;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-heading h1 {
+    font-size: 2.2rem;
+    letter-spacing: 0.05em;
+  }
+  
+  .section-heading::before,
+  .section-heading::after {
+    width: 90%;
+  }
 }
 
 .BSC-left {
