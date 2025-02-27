@@ -56,3 +56,115 @@
       });
     }
   </script>
+
+  <style>
+    /* HERO SECTION */
+.hero {
+  min-height: 100vh;        /* Enough to fill the screen */
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem 10vw;
+  background-color: #161616;
+  position: relative;
+}
+
+.hero-left {
+  flex: 1 1 60%;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 300px;
+}
+
+.name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: 0.1rem;
+  font-weight: bold;
+  /* Animated gradient text */
+  background: linear-gradient(270deg, #d38f41, #ff6600, #64155f);
+  background-size: 400% 400%;
+  animation: gradientAnimation 5s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.tagline {
+  font-size: 1.7rem;
+  margin-top: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 2rem;
+  color: #ffffff;
+}
+
+.summary {
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  max-width: 25rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Link circles with icons under summary */
+.link-circles {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.circle-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #955f21;
+  transition: all 0.3s ease;
+}
+
+.circle-link:hover {
+  background-color: #d38f41;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(211, 143, 65, 0.4);
+}
+
+.circle-link svg {
+  width: 30px;
+  height: 30px;
+}
+
+/* Right column: hero image */
+.hero-right {
+  flex: 1 1 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 300px;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 20px rgba(211, 143, 65, 0.5);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.hero-image img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 25px rgba(211, 143, 65, 0.7);
+}
+  </style>

@@ -13,3 +13,66 @@
 	  <div class="divider"></div>
 	</nav>
   </header>
+
+  <style>
+	/* NAVIGATION */
+.nav {
+  font-family: 'Roboto', sans-serif;
+  position: sticky;  /* Keeps the nav at the top on scroll */
+  top: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 2rem 0.2rem 2rem;
+  background: #161616;
+  width: 100%;
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  list-style: none;
+  transition: color 0.3s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+nav a {
+  color: #fcfcfc;            
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #d38f41;
+  opacity: 1;                
+}
+
+nav li {
+  display: inline-block;
+}
+
+.logo {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 1.8rem;
+  letter-spacing: 0.05rem;
+  margin: 0 1.5rem;
+}
+
+/* The divider under the nav */
+.divider {
+  position: relative;
+  height: 2px;
+  background-color: #d38f41;
+  width: 0%;                /* start at 0% for the animation */
+  animation: slideIn 1s forwards;
+}
+
+@keyframes slideIn {
+  0%   { width: 0%; }
+  100% { width: 100%; }
+}
+
+  </style>
