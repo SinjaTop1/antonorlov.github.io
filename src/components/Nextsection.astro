@@ -1,91 +1,64 @@
 ---
-// Import any components you need at the component level
+// Import your React component
+import BSCCarousel from "../components/BSCCarousel";
 ---
 
 <section class="next-section">
   <div class="section-heading reveal-element">
     <h1>BSC</h1>
-    <div><h2>My Current Project</h2></div>
+    <div>
+      <h2>My Current Project</h2>
+    </div>
   </div>
- 
-  
+
   <div class="BSC-left reveal-element">
     <div class="content-wrapper">
       <h2>Connecting Ambitious Minds</h2>
-      
+
       <p class="mission-statement">
         We bridge the gap between entrepreneurial-minded students and industry leaders, creating opportunities that transform ideas into reality.
       </p>
-      
+
       <div class="key-points">
         <div class="key-point">
           <span class="icon">🔗</span>
           <p>Connecting students with leading professionals through networking events and Masterclasses.</p>
         </div>
-        
+
         <div class="key-point">
           <span class="icon">💡</span>
           <p>Designing practical workshops and seminars that provide real-world business knowledge and entrepreneurial skills.</p>
         </div>
-        
+
         <div class="key-point">
           <span class="icon">🚀</span>
           <p>Making business accessible by providing students with the tools, resources, and community needed to launch successful ventures.</p>
         </div>
       </div>
-      
+
       <div class="cta-container">
-        <a href="https://www.instagram.com/businesssuccesscommunity/" class="cta-button" target = "_blank">Visit Us</a>
+        <a
+          href="https://www.instagram.com/businesssuccesscommunity/"
+          class="cta-button"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Visit Us
+        </a>
       </div>
     </div>
   </div>
-  
+
   <div class="BSC-right reveal-element">
-    <div class="carousel">
-      <div class="carousel-container">
-        <div class="carousel-slide active">
-          <img src="/PXL_20250206_162914543.MP.jpg" alt="Event Photo 1" loading="lazy"/>
-          <div class="caption">Networking Event, February 2025</div>
-        </div>
-        <div class="carousel-slide">
-          <img src="/PXL_20250206_162914543.MP.jpg" alt="Event Photo 2" loading="lazy"/>
-          <div class="caption">Startup Workshop, January 2025</div>
-        </div>
-        <div class="carousel-slide">
-          <img src="/PXL_20250206_162914543.MP.jpg" alt="Event Photo 3" loading="lazy"/>
-          <div class="caption">Pitch Competition, December 2024</div>
-        </div>
-        <div class="carousel-slide">
-          <img src="/PXL_20250206_162914543.MP.jpg" alt="Event Photo 4" loading="lazy"/>
-          <div class="caption">Industry Panel Discussion, November 2024</div>
-        </div>
-      </div>
-      
-      <button class="carousel-button prev" aria-label="Previous slide">
-        <svg viewBox="0 0 24 24" width="24" height="24">
-          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 18l-6-6 6-6"></path>
-        </svg>
-      </button>
-      
-      <button class="carousel-button next" aria-label="Next slide">
-        <svg viewBox="0 0 24 24" width="24" height="24">
-          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 18l6-6-6-6"></path>
-        </svg>
-      </button>
-      
-      <div class="carousel-indicators">
-        <button class="indicator active" data-slide="0" aria-label="Go to slide 1"></button>
-        <button class="indicator" data-slide="1" aria-label="Go to slide 2"></button>
-        <button class="indicator" data-slide="2" aria-label="Go to slide 3"></button>
-        <button class="indicator" data-slide="3" aria-label="Go to slide 4"></button>
-      </div>
+    <div class="carousel-wrapper">
+      <!-- Use the dedicated React component -->
+      <BSCCarousel client:only="react" />
     </div>
   </div>
 </section>
 
-
 <script>
-  // This ensures the DOM is fully loaded before our script runs
+  // Keep your existing reveal animation script
   document.addEventListener("DOMContentLoaded", () => {
     // Reveal elements on scroll
     const revealElements: NodeListOf<HTMLElement> = document.querySelectorAll(".reveal-element");
@@ -105,137 +78,9 @@
     
     // Check on scroll
     window.addEventListener("scroll", checkScroll);
-
-    // Carousel initialization
-    const carousel: HTMLElement | null = document.querySelector(".carousel");
-    
-    if (carousel) {
-      const container: HTMLElement | null = carousel.querySelector(".carousel-container");
-      
-      // Verify container exists before proceeding
-      if (!container) return;
-      
-      const slides: NodeListOf<HTMLElement> = carousel.querySelectorAll(".carousel-slide");
-      const prevButton: HTMLElement | null = carousel.querySelector(".prev");
-      const nextButton: HTMLElement | null = carousel.querySelector(".next");
-      const indicators: NodeListOf<HTMLElement> = carousel.querySelectorAll(".indicator");
-      
-      let currentIndex: number = 0;
-      let touchStartX: number = 0;
-      let touchEndX: number = 0;
-      let autoplayInterval: number | undefined;
-      
-      // Function to update the carousel display
-      function updateCarousel(): void {
-        // Update transform to show the current slide (container is guaranteed to exist here)
-        if (container) {
-          container.style.transform = `translateX(-${currentIndex * 100}%)`;
-        }
-        
-        // Update active states
-        slides.forEach((slide: HTMLElement, index: number) => {
-          slide.classList.toggle("active", index === currentIndex);
-        });
-        
-        indicators.forEach((dot: HTMLElement, index: number) => {
-          dot.classList.toggle("active", index === currentIndex);
-        });
-      }
-      
-      // Function to go to the next slide
-      function nextSlide(): void {
-        currentIndex = (currentIndex + 1) % slides.length;
-        updateCarousel();
-      }
-      
-      // Function to go to the previous slide
-      function prevSlide(): void {
-        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-        updateCarousel();
-      }
-      
-      // Function to go to a specific slide
-      function goToSlide(index: number): void {
-        currentIndex = index;
-        updateCarousel();
-        resetAutoplay();
-      }
-      
-      // Start autoplay
-      function startAutoplay(): void {
-        autoplayInterval = window.setInterval(nextSlide, 5000); // Change slide every 5 seconds
-      }
-      
-      // Reset autoplay (used after manual navigation)
-      function resetAutoplay(): void {
-        if (autoplayInterval) {
-          window.clearInterval(autoplayInterval);
-        }
-        startAutoplay();
-      }
-      
-      // Touch events for swipe functionality on mobile
-      container.addEventListener("touchstart", (e: TouchEvent) => {
-        touchStartX = e.changedTouches[0].screenX;
-      });
-      
-      container.addEventListener("touchend", (e: TouchEvent) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-      });
-      
-      function handleSwipe(): void {
-        // Minimum distance required for a swipe (pixels)
-        const swipeThreshold: number = 50;
-        
-        if (touchEndX < touchStartX - swipeThreshold) {
-          // Swipe left - show next slide
-          nextSlide();
-          resetAutoplay();
-        } else if (touchEndX > touchStartX + swipeThreshold) {
-          // Swipe right - show previous slide
-          prevSlide();
-          resetAutoplay();
-        }
-      }
-      
-      // Add event listeners for buttons and indicators
-      if (nextButton) {
-        nextButton.addEventListener("click", () => {
-          nextSlide();
-          resetAutoplay();
-        });
-      }
-      
-      if (prevButton) {
-        prevButton.addEventListener("click", () => {
-          prevSlide();
-          resetAutoplay();
-        });
-      }
-      
-      indicators.forEach((dot: HTMLElement, index: number) => {
-        dot.addEventListener("click", () => {
-          goToSlide(index);
-        });
-      });
-      
-      // Pause autoplay when hovering over the carousel
-      carousel.addEventListener("mouseenter", () => {
-        if (autoplayInterval) {
-          window.clearInterval(autoplayInterval);
-        }
-      });
-      
-      carousel.addEventListener("mouseleave", () => {
-        startAutoplay();
-      });
-      
-      // Start the autoplay when the page loads
-      startAutoplay();
-    }
   });
 </script>
+
 <style>
 /* Next Section with reveal animations */
 .next-section {
@@ -383,6 +228,30 @@
   font-weight: 500;
 }
 
+.carousel-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Style adjustments for shadcn carousel */
+:global(.embla) {
+  overflow: hidden !important;
+  width: 100% !important;
+}
+
+:global(.embla__container) {
+  display: flex !important;
+}
+
+:global(.embla__slide) {
+  flex: 0 0 100% !important;
+  min-width: 0 !important;
+}
+
 .key-points {
   margin-bottom: 2rem;
 }
@@ -439,86 +308,6 @@
   flex: 1;
   padding: 2rem;
   min-width: 300px;
-}
-
-.carousel {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-}
-
-.carousel-container {
-  display: flex;
-  transition: transform 0.5s ease;
-}
-
-.carousel-slide {
-  min-width: 100%;
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
-  position: relative;
-}
-
-.carousel-slide.active {
-  opacity: 1;
-}
-
-.carousel-slide img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 0.8rem;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
-  text-align: center;
-  font-size: 0.9rem;
-}
-
-.carousel-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.7);
-  border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s ease;
-}
-
-.carousel-button:hover {
-  background: rgba(255, 255, 255, 0.9);
-}
-
-.carousel-button.prev {
-  left: 10px;
-}
-
-.carousel-button.next {
-  right: 10px;
-}
-
-.carousel-indicators {
-  position: absolute;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 8px;
 }
 
 .indicator {

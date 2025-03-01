@@ -1,0 +1,38 @@
+---
+// Your existing imports
+import { Toaster } from 'sonner';
+
+// Other imports for your layout
+// ...
+---
+
+<html lang="en">
+  <head>
+    <!-- Your meta tags, title, etc. -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anton Orlov</title>
+    <!-- Your other head content -->
+  </head>
+  <body>
+    <!-- Your site content -->
+    <slot />
+    
+    <!-- Add Sonner's Toaster component at the end of the body -->
+    <Toaster 
+      expand={true} 
+      richColors 
+      closeButton 
+      position="top-right"
+      toastOptions={{
+        style: {
+          background: '#1f1f1f',
+          border: '1px solid #333',
+          color: '#fff'
+        },
+        className: 'my-toast-class'
+      }}
+      client:only="react"
+    />
+  </body>
+</html>
