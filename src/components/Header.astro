@@ -88,66 +88,149 @@ document.addEventListener("DOMContentLoaded", function() {
 <style is:global>
   /* Global styles for the contact form components */
   .custom-contact-btn {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.2rem;
+  background: linear-gradient(270deg, #d38f41, #955f21);
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  border: none;
+  cursor: pointer;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  gap: 8px;
+}
+
+.custom-contact-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(211, 143, 65, 0.5);
+  background: linear-gradient(270deg, #955f21, #d38f41);
+}
+
+/* Dialog styling */
+.contact-form-dialog {
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background-color: #1a1a1a !important;
+  padding: 1.5rem !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+.contact-form-dialog h2 {
+  color: #ffffff !important;
+  letter-spacing: -0.01em;
+}
+
+.contact-form-dialog p {
+  color: #adadad !important;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* Form input styling */
+.form-input, .form-textarea {
+  background-color: #2a2a2a !important;
+  border: 1px solid #3a3a3a !important;
+  border-radius: 8px !important;
+  color: #ffffff !important;
+  padding: 0.8rem 1rem !important;
+  font-size: 1rem !important;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus, .form-textarea:focus {
+  border-color: #d38f41 !important;
+  box-shadow: 0 0 0 2px rgba(211, 143, 65, 0.25) !important;
+  outline: none;
+}
+
+.form-input::placeholder, .form-textarea::placeholder {
+  color: #777777 !important;
+  opacity: 1;
+}
+
+/* Label styling */
+form label {
+  color: #e0e0e0 !important;
+  font-weight: 500 !important;
+  margin-bottom: 0.5rem !important;
+  display: block;
+}
+
+/* Submit button styling */
+.contact-submit-btn {
+  background: linear-gradient(270deg, #d38f41, #955f21) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  padding: 0.8rem 1.5rem !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+}
+
+.contact-submit-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(211, 143, 65, 0.5) !important;
+  background: linear-gradient(270deg, #e79d4b, #a66926) !important;
+}
+
+.contact-submit-btn:focus {
+  box-shadow: 0 0 0 2px rgba(211, 143, 65, 0.4) !important;
+}
+
+.contact-submit-btn:disabled {
+  opacity: 0.7 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* Error message styling */
+form .text-red-500 {
+  color: #ff6b6b !important;
+  font-size: 0.85rem !important;
+  margin-top: 0.25rem !important;
+}
+
+/* Mobile styling */
+@media (max-width: 480px) {
+  .custom-contact-btn {
+    font-size: 0.7rem;
+    padding: 0;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
     justify-content: center;
-    padding: 0.5rem 1rem;
-    background: linear-gradient(270deg, #d38f41, #955f21);
-    color: white;
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    border: none;
-    cursor: pointer;
-    line-height: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
   
-  .custom-contact-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(211, 143, 65, 0.5);
-    background: linear-gradient(270deg, #955f21, #d38f41);
+  .custom-contact-btn svg {
+    margin: 0;
   }
   
-  .gradient-btn {
-    background: linear-gradient(270deg, #d38f41, #955f21) !important;
-    border: none !important;
-    color: white !important;
-    font-weight: 500 !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+  .contact-form-dialog {
+    padding: 1.25rem !important;
+    width: 95vw !important;
+    max-width: 95vw !important;
   }
   
-  .gradient-btn:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 8px rgba(211, 143, 65, 0.5) !important;
-    background: linear-gradient(270deg, #955f21, #d38f41) !important;
+  .contact-form-dialog h2 {
+    font-size: 1.5rem !important;
   }
   
-  /* Make sure the dialog content looks good */
-  .dialog-content {
-    border-radius: 6px !important;
-    background-color: #1f1f1f !important;
-    border: 1px solid #333 !important;
-    color: #fff !important;
+  .form-input, .form-textarea {
+    padding: 0.6rem 0.8rem !important;
+    font-size: 0.95rem !important;
   }
-  
-  /* Style adjustments for mobile */
-  @media (max-width: 480px) {
-    .custom-contact-btn {
-      font-size: 0.7rem;
-      padding: 0;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      justify-content: center;
-    }
-  }
+}
 </style>
 
 <style>
@@ -279,7 +362,7 @@ document.addEventListener("DOMContentLoaded", function() {
   /* Contact Button */
   .contact-button-container {
     position: absolute;
-    top: 0.2rem;
+    top: 0.45rem;
     right: 0;
     transition: all 0.3s ease;
     will-change: transform, opacity;

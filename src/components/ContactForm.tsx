@@ -105,13 +105,23 @@ export default function ContactForm() {
     setIsSubmitting(true);
     
     try {
-      // In a real app, you would send this data to your backend/email service
-      console.log(formData);
+      // Send data to Formspree - REPLACE WITH YOUR ACTUAL FORMSPREE ENDPOINT
+      const response = await fetch("https://formspree.io/f/xanqrjry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message
+        })
+      });
       
-      // Simulate a brief loading time
-      const loadingToast = toast.loading("Sending your message...");
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      toast.dismiss(loadingToast);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
       
       // Show success message with Sonner
       toast.success("Message sent!", {
@@ -140,22 +150,22 @@ export default function ContactForm() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <button className="custom-contact-btn">
-          <span className="hidden sm:inline">Contact Me</span>
-          <Mail className="h-4 w-4 sm:ml-2" />
+          <span className="hidden sm:inline sm:mr-3">Contact Me</span>
+          <Mail className="h-4 w-4" />
         </button>
       </DialogTrigger>
       
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle className="text-xl">Get in Touch</DialogTitle>
-          <DialogDescription>
-            Fill out this form to send me a message. I'll get back to you as soon as possible.
+      <DialogContent className="sm:max-w-[500px] contact-form-dialog">
+        <DialogHeader className="space-y-3">
+          <DialogTitle className="text-2xl font-semibold">Get in Touch</DialogTitle>
+          <DialogDescription className="text-base opacity-90">
+            Fill out this form to send me a message. It makes it easier for me to respond as quickly as possible.
           </DialogDescription>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-4 pt-2">
-          <div className="space-y-1">
-            <label htmlFor="name" className="text-sm font-medium">
+        <form onSubmit={handleSubmit} className="space-y-6 pt-4">
+          <div className="space-y-2">
+            <label htmlFor="name" className="text-sm font-medium block">
               Name
             </label>
             <Input
@@ -164,14 +174,15 @@ export default function ContactForm() {
               placeholder="Your name"
               value={formData.name}
               onChange={handleChange}
+              className="form-input"
             />
             {errors.name && (
-              <p className="text-sm text-red-500">{errors.name}</p>
+              <p className="text-sm text-red-500 mt-1">{errors.name}</p>
             )}
           </div>
           
-          <div className="space-y-1">
-            <label htmlFor="email" className="text-sm font-medium">
+          <div className="space-y-2">
+            <label htmlFor="email" className="text-sm font-medium block">
               Email
             </label>
             <Input
@@ -181,14 +192,15 @@ export default function ContactForm() {
               placeholder="your.email@example.com"
               value={formData.email}
               onChange={handleChange}
+              className="form-input"
             />
             {errors.email && (
-              <p className="text-sm text-red-500">{errors.email}</p>
+              <p className="text-sm text-red-500 mt-1">{errors.email}</p>
             )}
           </div>
           
-          <div className="space-y-1">
-            <label htmlFor="subject" className="text-sm font-medium">
+          <div className="space-y-2">
+            <label htmlFor="subject" className="text-sm font-medium block">
               Subject
             </label>
             <Input
@@ -197,33 +209,34 @@ export default function ContactForm() {
               placeholder="What's this about?"
               value={formData.subject}
               onChange={handleChange}
+              className="form-input"
             />
             {errors.subject && (
-              <p className="text-sm text-red-500">{errors.subject}</p>
+              <p className="text-sm text-red-500 mt-1">{errors.subject}</p>
             )}
           </div>
           
-          <div className="space-y-1">
-            <label htmlFor="message" className="text-sm font-medium">
+          <div className="space-y-2">
+            <label htmlFor="message" className="text-sm font-medium block">
               Message
             </label>
             <Textarea
               id="message"
               name="message"
               placeholder="Your message here..."
-              className="min-h-[100px] resize-none"
+              className="form-textarea min-h-[150px]"
               value={formData.message}
               onChange={handleChange}
             />
             {errors.message && (
-              <p className="text-sm text-red-500">{errors.message}</p>
+              <p className="text-sm text-red-500 mt-1">{errors.message}</p>
             )}
           </div>
           
           <DialogFooter className="pt-4">
             <Button
               type="submit"
-              className="w-full gradient-btn"
+              className="w-full contact-submit-btn"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Sending..." : "Send Message"}
