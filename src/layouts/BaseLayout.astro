@@ -2,8 +2,8 @@
 // Your existing imports
 import { Toaster } from 'sonner';
 
-// Other imports for your layout
-// ...
+// Add props for title and description
+const { title = "Anton Orlov", description = "Anton Orlov's personal website" } = Astro.props;
 ---
 
 <html lang="en">
@@ -11,7 +11,13 @@ import { Toaster } from 'sonner';
     <!-- Your meta tags, title, etc. -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anton Orlov</title>
+    
+    <!-- Use the title prop -->
+    <title>{title}</title>
+    
+    <!-- Add meta description -->
+    <meta name="description" content={description} />
+    
     <!-- Your other head content -->
   </head>
   <body>

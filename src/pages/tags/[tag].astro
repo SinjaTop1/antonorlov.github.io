@@ -1,0 +1,233 @@
+---
+// src/pages/tags/[tag].astro
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+
+// Define a more explicit interface for your blog data
+interface BlogData {
+  title: string;
+  description: string;
+  pubDate: Date;
+  draft?: boolean;
+  featured?: boolean;
+  tags?: string[];
+  author?: string;
+  image?: string;
+}
+
+// Define a complete blog entry type
+type BlogEntry = {
+  id: string;
+  slug: string;
+  collection: string;
+  body: string;
+  data: BlogData;
+  render: () => Promise<any>;
+};
+
+// Generate all tag pages dynamically
+export async function getStaticPaths() {
+  const allBlogPosts = await getCollection('blog', ({ data }) => {
+    const blogData = data as any;
+    return import.meta.env.PROD ? !blogData.draft : true;
+  }) as unknown as BlogEntry[];
+  
+  // Get all unique tags from all blog posts
+  const uniqueTags = [...new Set(allBlogPosts.flatMap(post => {
+    // Use type assertion for post.data.tags
+    const tags = (post.data as any).tags || [];
+    return tags;
+  }))];
+  
+  // For each tag, filter posts that include that tag
+  return uniqueTags.map(tag => {
+    const filteredPosts = allBlogPosts.filter(post => {
+      // Use type assertion for post.data.tags
+      const tags = (post.data as any).tags || [];
+      return tags.includes(tag);
+    });
+    
+    // Sort posts by date (newest first)
+    const sortedPosts = filteredPosts.sort(
+      (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+    );
+    
+    return {
+      params: { tag },
+      props: { posts: sortedPosts, tag }
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props as { posts: BlogEntry[] };
+
+// Get all unique tags (for the filter)
+const allBlogPosts = await getCollection('blog', ({ data }) => {
+  const blogData = data as any;
+  return import.meta.env.PROD ? !blogData.draft : true;
+}) as unknown as BlogEntry[];
+
+const allTags = [...new Set(allBlogPosts.flatMap(post => {
+  // Use type assertion for post.data.tags
+  const tags = (post.data as any).tags || [];
+  return tags;
+}))];
+---
+
+<BaseLayout title={`Posts tagged with #${tag} | Your Site Name`} description={`Browse all articles related to ${tag}`}>
+  <section class="tag-header">
+    <div class="container">
+      <a href="/blog" class="back-link">&larr; Back to all posts</a>
+      <h1>Posts tagged with <span>#{tag}</span></h1>
+      <p>Found {posts.length} post{posts.length !== 1 ? 's' : ''}</p>
+    </div>
+  </section>
+  
+  <section class="tag-posts">
+    <div class="container">
+      <div class="blog-controls">
+        <div class="tags-filter">
+          <span>Filter by:</span>
+          <div class="tags-list">
+            <a href="/blog" class="tag">All</a>
+            {allTags.map(t => (
+              <a href={`/tags/${t}`} class={`tag ${t === tag ? 'active' : ''}`}>
+                #{t}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+      
+      <div class="posts-grid">
+        {posts.map(post => {
+          // Create a properly typed post for the BlogCard component
+          const typedPost = {
+            title: post.data.title,
+            description: post.data.description,
+            pubDate: post.data.pubDate,
+            author: post.data.author || "",
+            image: post.data.image || "",
+            url: `/blog/${post.slug}`,
+            tags: (post.data as any).tags || []
+          };
+          
+          return (
+            <BlogCard 
+              title={typedPost.title}
+              description={typedPost.description}
+              pubDate={typedPost.pubDate}
+              author={typedPost.author}
+              image={typedPost.image}
+              url={typedPost.url}
+              tags={typedPost.tags}
+            />
+          );
+        })}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  
+  .tag-header {
+    padding: 4rem 0 2rem;
+    background-color: #f9f9f9;
+    margin-bottom: 3rem;
+  }
+  
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: #555;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .back-link:hover {
+    color: #000;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  h1 span {
+    color: #0066cc;
+  }
+  
+  .tag-posts {
+    margin-bottom: 5rem;
+  }
+  
+  .blog-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .tags-filter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .tags-filter span {
+    color: #666;
+  }
+  
+  .tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .tag {
+    background-color: #f0f0f0;
+    color: #555;
+    padding: 0.3rem 0.8rem;
+    border-radius: 3px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  .tag:hover, .tag.active {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  @media (max-width: 768px) {
+    .tag-header {
+      padding: 3rem 0 2rem;
+    }
+    
+    h1 {
+      font-size: 2rem;
+    }
+    
+    .blog-controls {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
