@@ -5,7 +5,8 @@ pubDate: 2025-03-02
 author: "Your Name"
 draft: false
 featured: true
-heroimage: "public/PXL_20250206_162914543.MP.jpg"
+heroImage: "public/PXL_20250206_162914543.MP.jpg"
+tags: ["somth"]
 ---
 
 # Getting Started with Web Development in 2025

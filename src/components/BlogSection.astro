@@ -1,34 +1,86 @@
 ---
-// Import any components you need at the component level
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+
+// Define a more explicit interface for your blog data
+interface BlogData {
+  title: string;
+  description: string;
+  pubDate: Date;
+  draft?: boolean;
+  featured?: boolean;
+  tags?: string[];
+  author?: string;
+  heroImage?: string; // Using heroImage to match your structure
+  image?: string;
+}
+
+// Define a complete blog entry type
+type BlogEntry = {
+  id: string;
+  slug: string;
+  collection: string;
+  body: string;
+  data: BlogData;
+  render: () => Promise<any>;
+};
+
+// Fetch all blog posts
+const allBlogPosts = await getCollection('blog', ({ data }) => {
+  // In production, filter out drafts
+  return import.meta.env.PROD ? !data.draft : true;
+}) as unknown as BlogEntry[];
+
+// Find the featured post (or default to the most recent)
+const featuredPost = allBlogPosts
+  .filter(post => post.data.featured)
+  .sort((a, b) => new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf())
+  .shift() || allBlogPosts
+  .sort((a, b) => new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf())
+  .shift();
+
+// Format date for display in the date badge
+const pubDate = featuredPost ? new Date(featuredPost.data.pubDate) : new Date();
+const day = pubDate.getDate();
+const month = pubDate.toLocaleString('default', { month: 'short' });
+
+// Get all unique tags for the sidebar
+const allTags = [...new Set(allBlogPosts.flatMap(post => post.data.tags || []))].slice(0, 3);
 ---
 
 <section class="blog-section">
-    <div class="blog-container">
-      <div class="section-header">
-        <h2>My Blog & Insights</h2>
-        <div class="header-line"></div>
-      </div>
-  
-      <div class="content-wrapper">
-        <!-- Featured Blog Post -->
+  <div class="blog-container">
+    <div class="section-header">
+      <h2>My Blog & Insights</h2>
+      <div class="header-line"></div>
+    </div>
+
+    <div class="content-wrapper">
+      <!-- Featured Blog Post -->
+      {featuredPost ? (
         <div class="featured-post">
           <div class="post-image">
-            <img src="/api/placeholder/600/400" alt="Latest blog post" />
+            <img 
+              src={featuredPost.data.heroImage || featuredPost.data.image || "/api/placeholder/600/400"} 
+              alt={featuredPost.data.title} 
+            />
             <div class="post-date">
-              <span class="day">28</span>
-              <span class="month">Feb</span>
+              <span class="day">{day}</span>
+              <span class="month">{month}</span>
             </div>
           </div>
           <div class="post-content">
-            <h3>Understanding Modern Web Animation Techniques</h3>
+            <h3>{featuredPost.data.title}</h3>
             <p class="post-excerpt">
-              Exploring how subtle animations can dramatically improve user experience and engagement while maintaining performance.
+              {featuredPost.data.description}
             </p>
             <div class="post-meta">
-              <span class="post-category">Web Development</span>
+              {featuredPost.data.tags && featuredPost.data.tags.length > 0 && (
+                <span class="post-category">{featuredPost.data.tags[0]}</span>
+              )}
               <span class="post-reading-time">5 min read</span>
             </div>
-            <a href="/blog/web-animation-techniques" class="read-more">
+            <a href={`/blog/${featuredPost.slug}`} class="read-more">
               Read Article
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"/>
@@ -36,448 +88,481 @@
             </a>
           </div>
         </div>
-  
-        <!-- Newsletter & Link Section -->
-        <div class="sidebar">
-          <div class="newsletter-box">
-            <h3>Join My Newsletter</h3>
-            <p>Get my latest articles, tutorials, and thoughts directly to your inbox.</p>
-            <form class="newsletter-form" id="newsletter-form">
-              <input type="email" name="email" id="email-input" placeholder="Your email address" required />
-              <button type="submit" id="submit-button">
-                Subscribe
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" class="button-icon">
-                  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17l5-5-5-5M6 17l5-5-5-5"/>
-                </svg>
-              </button>
-            </form>
-            <div class="form-footer">
-              <small>No spam, unsubscribe anytime.</small>
+      ) : (
+        <div class="featured-post">
+          <div class="post-image">
+            <img src="/api/placeholder/600/400" alt="No featured post available" />
+            <div class="post-date">
+              <span class="day">--</span>
+              <span class="month">---</span>
             </div>
           </div>
-  
-          <div class="all-posts-link">
-            <h3>Recent Topics</h3>
-            <ul class="topic-list">
-              <li><a href="/blog/category/design">UI/UX Design</a></li>
-              <li><a href="/blog/category/code">Frontend Development</a></li>
-              <li><a href="/blog/category/thoughts">Industry Insights</a></li>
-            </ul>
-            <a href="/blog" class="view-all-posts">
+          <div class="post-content">
+            <h3>No Featured Post Available</h3>
+            <p class="post-excerpt">
+              There are currently no blog posts available. Add a post with featured: true in frontmatter to display it here.
+            </p>
+            <div class="post-meta">
+              <span class="post-category">General</span>
+              <span class="post-reading-time">0 min read</span>
+            </div>
+            <a href="/blog" class="read-more">
               View All Posts
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
             </a>
           </div>
         </div>
+      )}
+
+      <!-- Newsletter & Link Section -->
+      <div class="sidebar">
+        <div class="newsletter-box">
+          <h3>Join My Newsletter</h3>
+          <p>Get my latest articles, tutorials, and thoughts directly to your inbox.</p>
+          <form class="newsletter-form" id="newsletter-form">
+            <input type="email" name="email" id="email-input" placeholder="Your email address" required />
+            <button type="submit" id="submit-button">
+              Subscribe
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" class="button-icon">
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17l5-5-5-5M6 17l5-5-5-5"/>
+              </svg>
+            </button>
+          </form>
+          <div class="form-footer">
+            <small>No spam, unsubscribe anytime.</small>
+          </div>
+        </div>
+
+        <div class="all-posts-link">
+          <h3>Recent Topics</h3>
+          <ul class="topic-list">
+            {allTags.map(tag => (
+              <li><a href={`/tags/${tag}`}>{tag}</a></li>
+            ))}
+            {allTags.length === 0 && (
+              <li><a href="/blog">No topics available</a></li>
+            )}
+          </ul>
+          <a href="/blog" class="view-all-posts">
+            View All Posts
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
-  </section>
-  
-  <script is:inline>
-    document.addEventListener("DOMContentLoaded", function() {
-      const newsletterForm = document.getElementById('newsletter-form');
-      
-      if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
-          e.preventDefault();
-          
-          const emailInput = document.getElementById('email-input');
-          
-          if (!emailInput) {
-            console.error('Email input element not found');
-            return;
+  </div>
+</section>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", function() {
+    const newsletterForm = document.getElementById('newsletter-form');
+    
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const emailInput = document.getElementById('email-input');
+        
+        if (!emailInput) {
+          console.error('Email input element not found');
+          return;
+        }
+        
+        const email = emailInput.value ? emailInput.value.trim() : '';
+        
+        if (!email) {
+          alert('Please enter a valid email address');
+          return;
+        }
+        
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzSrRluq2OkfLfNqOJzNC5SlloiIhjdy0uP9ren_9r6J60JCq_NZxsd8CE-98LAm4LS/exec';
+        
+        if (!scriptURL) {
+          console.error('Google Script URL not configured');
+          alert('The form is not properly configured. Please contact the site administrator.');
+          return;
+        }
+        
+        // Show loading state
+        const submitButton = newsletterForm.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton ? submitButton.innerHTML : '';
+        
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.innerHTML = 'Submitting...';
+        }
+        
+        fetch(scriptURL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `email=${encodeURIComponent(email)}`
+        })
+        .then(response => {
+          console.log('Response received:', response);
+          // Handle success
+          alert('Thanks for subscribing!');
+          if (newsletterForm) {
+            newsletterForm.reset();
           }
-          
-          const email = emailInput.value ? emailInput.value.trim() : '';
-          
-          if (!email) {
-            alert('Please enter a valid email address');
-            return;
-          }
-          
-          const scriptURL = 'https://script.google.com/macros/s/AKfycbzSrRluq2OkfLfNqOJzNC5SlloiIhjdy0uP9ren_9r6J60JCq_NZxsd8CE-98LAm4LS/exec';
-          
-          if (!scriptURL) {
-            console.error('Google Script URL not configured');
-            alert('The form is not properly configured. Please contact the site administrator.');
-            return;
-          }
-          
-          // Show loading state
-          const submitButton = newsletterForm.querySelector('button[type="submit"]');
-          const originalButtonText = submitButton ? submitButton.innerHTML : '';
-          
+        })
+        .catch(error => {
+          // Handle error
+          console.error('Submission error:', error.message);
+          alert('There was an error submitting the form. Please try again later.');
+        })
+        .finally(() => {
+          // Reset button state
           if (submitButton) {
-            submitButton.disabled = true;
-            submitButton.innerHTML = 'Submitting...';
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalButtonText;
           }
-          
-          fetch(scriptURL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `email=${encodeURIComponent(email)}`
-          })
-          .then(response => {
-            console.log('Response received:', response);
-            // Handle success
-            alert('Thanks for subscribing!');
-            if (newsletterForm) {
-              newsletterForm.reset();
-            }
-          })
-          .catch(error => {
-            // Handle error
-            console.error('Submission error:', error.message);
-            alert('There was an error submitting the form. Please try again later.');
-          })
-          .finally(() => {
-            // Reset button state
-            if (submitButton) {
-              submitButton.disabled = false;
-              submitButton.innerHTML = originalButtonText;
-            }
-          });
         });
-      } else {
-        console.warn('Newsletter form not found in the document');
-      }
-    });
-  </script>
-  
-  <style>
-    .blog-section {
-      padding: 5rem 2rem;
-      background-color: #000000;
+      });
+    } else {
+      console.warn('Newsletter form not found in the document');
     }
-  
-    .blog-container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-  
-    .section-header {
-      text-align: center;
-      margin-bottom: 3.5rem;
-      position: relative;
-    }
-  
-    .section-header h2 {
-      font-size: 2.5rem;
-      color: #ffffff;
-      margin-bottom: 1rem;
-      position: relative;
-      display: inline-block;
-    }
-  
-    .header-line {
-      height: 3px;
-      width: 80px;
-      background: linear-gradient(90deg, #955f21, #d38f41);
-      margin: 0 auto;
-    }
-  
+  });
+</script>
+
+<style>
+  main {
+  min-height: 100vh; /* Makes sure the main content is at least the height of the viewport */
+}
+  .blog-section {
+    padding: 5rem 2rem;
+    background-color: #000000;
+  }
+
+  .blog-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+    position: relative;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .header-line {
+    height: 3px;
+    width: 80px;
+    background: linear-gradient(90deg, #955f21, #d38f41);
+    margin: 0 auto;
+  }
+
+  .content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+
+  /* Featured Post Styles */
+  .featured-post {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .featured-post:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .post-image {
+    position: relative;
+    height: 240px;
+    overflow: hidden;
+  }
+
+  .post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .featured-post:hover .post-image img {
+    transform: scale(1.05);
+  }
+
+  .post-date {
+    position: absolute;
+    right: 20px;
+    bottom: -20px;
+    background: linear-gradient(135deg, #d38f41, #955f21);
+    color: white;
+    border-radius: 5px;
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(211, 143, 65, 0.3);
+  }
+
+  .post-date .day {
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .post-date .month {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .post-content {
+    padding: 2rem;
+  }
+
+  .post-content h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+    transition: color 0.3s ease;
+  }
+
+  .featured-post:hover .post-content h3 {
+    color: #d38f41;
+  }
+
+  .post-excerpt {
+    color: #636e72;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .post-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+  }
+
+  .post-category {
+    color: #955f21;
+    font-weight: 600;
+  }
+
+  .post-reading-time {
+    color: #95a5a6;
+  }
+
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #d38f41;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .read-more svg {
+    transition: transform 0.3s ease;
+  }
+
+  .read-more:hover {
+    color: #955f21;
+  }
+
+  .read-more:hover svg {
+    transform: translateX(5px);
+  }
+
+  /* Sidebar Styles */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .newsletter-box {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .newsletter-box h3 {
+    font-size: 1.4rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+  }
+
+  .newsletter-box p {
+    color: #636e72;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .newsletter-form input {
+    padding: 0.8rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .newsletter-form input:focus {
+    border-color: #d38f41;
+    outline: none;
+  }
+
+  .newsletter-form button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(90deg, #d38f41, #955f21);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .newsletter-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(211, 143, 65, 0.3);
+  }
+
+  .button-icon {
+    transition: transform 0.3s ease;
+  }
+
+  .newsletter-form button:hover .button-icon {
+    transform: translateX(3px);
+  }
+
+  .form-footer {
+    margin-top: 1rem;
+    text-align: center;
+    color: #95a5a6;
+  }
+
+  .all-posts-link {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .all-posts-link h3 {
+    font-size: 1.4rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+  }
+
+  .topic-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .topic-list li {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 0.8rem 0;
+  }
+
+  .topic-list li:last-child {
+    border-bottom: none;
+  }
+
+  .topic-list a {
+    color: #636e72;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block;
+  }
+
+  .topic-list a:hover {
+    color: #d38f41;
+  }
+
+  .view-all-posts {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #d38f41;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .view-all-posts svg {
+    transition: transform 0.3s ease;
+  }
+
+  .view-all-posts:hover {
+    color: #955f21;
+  }
+
+  .view-all-posts:hover svg {
+    transform: translateX(5px);
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 900px) {
     .content-wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
+      grid-template-columns: 1fr;
     }
-  
-    /* Featured Post Styles */
-    .featured-post {
-      background-color: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-  
-    .featured-post:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    }
-  
-    .post-image {
-      position: relative;
-      height: 240px;
-      overflow: hidden;
-    }
-  
-    .post-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-  
-    .featured-post:hover .post-image img {
-      transform: scale(1.05);
-    }
-  
-    .post-date {
-      position: absolute;
-      right: 20px;
-      bottom: -20px;
-      background: linear-gradient(135deg, #d38f41, #955f21);
-      color: white;
-      border-radius: 5px;
-      padding: 10px 15px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      box-shadow: 0 4px 12px rgba(211, 143, 65, 0.3);
-    }
-  
-    .post-date .day {
-      font-size: 1.4rem;
-      font-weight: 700;
-      line-height: 1;
-    }
-  
-    .post-date .month {
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-  
-    .post-content {
-      padding: 2rem;
-    }
-  
-    .post-content h3 {
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-      color: #2c3e50;
-      transition: color 0.3s ease;
-    }
-  
-    .featured-post:hover .post-content h3 {
-      color: #d38f41;
-    }
-  
-    .post-excerpt {
-      color: #636e72;
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
-    }
-  
-    .post-meta {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      font-size: 0.85rem;
-    }
-  
-    .post-category {
-      color: #955f21;
-      font-weight: 600;
-    }
-  
-    .post-reading-time {
-      color: #95a5a6;
-    }
-  
-    .read-more {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: #d38f41;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-  
-    .read-more svg {
-      transition: transform 0.3s ease;
-    }
-  
-    .read-more:hover {
-      color: #955f21;
-    }
-  
-    .read-more:hover svg {
-      transform: translateX(5px);
-    }
-  
-    /* Sidebar Styles */
+
     .sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
+      gap: 1.5rem;
     }
-  
-    .newsletter-box {
-      background-color: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  @media (max-width: 480px) {
+    .blog-section {
+      padding: 3rem 1rem;
     }
-  
-    .newsletter-box h3 {
-      font-size: 1.4rem;
-      color: #2c3e50;
-      margin-bottom: 1rem;
+
+    .section-header h2 {
+      font-size: 2rem;
     }
-  
-    .newsletter-box p {
-      color: #636e72;
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
+
+    .post-content {
+      padding: 1.5rem;
     }
-  
-    .newsletter-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+
+    .post-date {
+      right: 15px;
+      padding: 8px 12px;
     }
-  
-    .newsletter-form input {
-      padding: 0.8rem 1rem;
-      border: 2px solid #e0e0e0;
-      border-radius: 4px;
-      font-size: 0.95rem;
-      transition: border-color 0.3s ease;
+
+    .post-date .day {
+      font-size: 1.2rem;
     }
-  
-    .newsletter-form input:focus {
-      border-color: #d38f41;
-      outline: none;
-    }
-  
-    .newsletter-form button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.8rem 1.5rem;
-      background: linear-gradient(90deg, #d38f41, #955f21);
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-  
-    .newsletter-form button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(211, 143, 65, 0.3);
-    }
-  
-    .button-icon {
-      transition: transform 0.3s ease;
-    }
-  
-    .newsletter-form button:hover .button-icon {
-      transform: translateX(3px);
-    }
-  
-    .form-footer {
-      margin-top: 1rem;
-      text-align: center;
-      color: #95a5a6;
-    }
-  
+
+    .newsletter-box, 
     .all-posts-link {
-      background-color: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
     }
-  
-    .all-posts-link h3 {
-      font-size: 1.4rem;
-      color: #2c3e50;
-      margin-bottom: 1.5rem;
-    }
-  
-    .topic-list {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 1.5rem 0;
-    }
-  
-    .topic-list li {
-      border-bottom: 1px solid #f0f0f0;
-      padding: 0.8rem 0;
-    }
-  
-    .topic-list li:last-child {
-      border-bottom: none;
-    }
-  
-    .topic-list a {
-      color: #636e72;
-      text-decoration: none;
-      transition: color 0.3s ease;
-      display: block;
-    }
-  
-    .topic-list a:hover {
-      color: #d38f41;
-    }
-  
-    .view-all-posts {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: #d38f41;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-  
-    .view-all-posts svg {
-      transition: transform 0.3s ease;
-    }
-  
-    .view-all-posts:hover {
-      color: #955f21;
-    }
-  
-    .view-all-posts:hover svg {
-      transform: translateX(5px);
-    }
-  
-    /* Responsive Styles */
-    @media (max-width: 900px) {
-      .content-wrapper {
-        grid-template-columns: 1fr;
-      }
-  
-      .sidebar {
-        gap: 1.5rem;
-      }
-    }
-  
-    @media (max-width: 480px) {
-      .blog-section {
-        padding: 3rem 1rem;
-      }
-  
-      .section-header h2 {
-        font-size: 2rem;
-      }
-  
-      .post-content {
-        padding: 1.5rem;
-      }
-  
-      .post-date {
-        right: 15px;
-        padding: 8px 12px;
-      }
-  
-      .post-date .day {
-        font-size: 1.2rem;
-      }
-  
-      .newsletter-box, 
-      .all-posts-link {
-        padding: 1.5rem;
-      }
-    }
-  </style>
+  }
+</style>
