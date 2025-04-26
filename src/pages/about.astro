@@ -3,161 +3,182 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_TITLE } from '../consts';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import DownloadCVButton from '../components/DownloadCVButton.astro';
 ---
 
-<BaseLayout title={`About | ${SITE_TITLE}`}>
-  <Header />
-  <main class="cv-page">
-    <section class="cv-hero">
-      <div class="cv-hero-overlay"></div>
-      <div class="cv-hero-content container">
-        <div class="profile-section">
-          <div class="profile-image">
-            <img src="/about-photo.jpg" alt="Anton Orlov" />
-          </div>
-          <div class="profile-info">
-            <h1>Anton Orlov</h1>
-            <p class="profile-title">Entrepreneur & Business Administration Student</p>
-            <p class="profile-subtitle">Webster University Vienna</p>
-            <DownloadCVButton />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <BaseHead title={`About | ${SITE_TITLE}`} description="Learn more about Anton Orlov - Entrepreneur and Student" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link 
+      rel="preload" 
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+      as="style" 
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link 
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" 
+        rel="stylesheet"
+      />
+    </noscript>
+  </head>
+  <body>
+    <Header />
+    
+    <main class="cv-page">
+      <section class="cv-hero">
+        <div class="cv-hero-overlay"></div>
+        <div class="cv-hero-content container">
+          <div class="profile-section">
+            <div class="profile-image">
+              <img src="/about-photo.jpg" alt="Anton Orlov" />
+            </div>
+            <div class="profile-info">
+              <h1>Anton Orlov</h1>
+              <p class="profile-title">Entrepreneur & Business Administration Student</p>
+              <p class="profile-subtitle">Webster University Vienna</p>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-    
-    <section class="cv-content">
-      <div class="container">
-        <div class="cv-grid">
-          <div class="cv-main">
-            <section class="profile-summary">
-              <h2>Profile</h2>
-              <p>
-                Enthusiastic and adaptable BA candidate (Webster University Vienna, May 2025) with a strong foundation in finance and hands-on entrepreneurial experience. Proven ability to design and streamline processes, lead teams and implement sustainable AI-driven solutions. Eager to bring fresh perspectives and cost-saving optimizations to a forward-thinking European company.
-              </p>
-            </section>
+      </section>
+      
+      <section class="cv-content">
+        <div class="container">
+          <div class="cv-grid">
+            <div class="cv-main">
+              <section class="profile-summary">
+                <h2>Profile</h2>
+                <p>
+                  Enthusiastic and adaptable BA candidate (Webster University Vienna, May 2025) with a strong foundation in finance and hands-on entrepreneurial experience. Proven ability to design and streamline processes, lead teams and implement sustainable AI-driven solutions. Eager to bring fresh perspectives and cost-saving optimizations to a forward-thinking European company.
+                </p>
+              </section>
 
-            <section class="experience">
-              <h2>Entrepreneurial Experience</h2>
-              
-              <div class="experience-item">
-                <div class="experience-header">
-                  <h3>Co-Founder & CEO</h3>
-                  <span class="company">BSC, Vienna, Austria</span>
-                  <span class="date">Jan 2025 – Present</span>
-                </div>
-                <ul class="achievement-list">
-                  <li>Conceptualized and launched interactive business-learning events for 100+ students, integrating live workshops, networking sessions and AI-powered analytics.</li>
-                  <li>Developed a 4-5 week business mentorship course with top entrepreneurs as mentors, guiding students to create their MVPs. The program leverages AI as a tool for efficiency and insight, but is focused on practical business building and mentorship.</li>
-                  <li>Organized end-to-end event processes—vendor sourcing, scheduling, marketing—achieving 95% participant satisfaction in pilot events.</li>
-                  <li>Lead a cross-functional team of 5 peers; instituted weekly KPI reviews and streamlined communications, reducing planning time by 30%.</li>
-                </ul>
-              </div>
-
-              <div class="experience-item">
-                <div class="experience-header">
-                  <h3>Founder & Managing Director</h3>
-                  <span class="company">Olive Crown Estate, Girne Cyprus</span>
-                  <span class="date">Mar 2022 – Mar 2023</span>
-                </div>
-                <ul class="achievement-list">
-                  <li>Established and operated a boutique agency specializing in residential property sales and rentals.</li>
-                  <li>Negotiated contracts and managed client relationships.</li>
-                  <li>Implemented CRM and automated workflow systems to track leads, appointments and document management, cutting administrative overhead by 40%.</li>
-                  <li>Coordinated remote and local teams, honing organizational skills and fostering a collaborative culture.</li>
-                </ul>
-              </div>
-            </section>
-
-            <section class="interests">
-              <h2>Interests & Extracurriculars</h2>
-              <ul class="interest-list">
-                <li>Gym & Fitness: Active gym-goer, climbing enthusiast, and participant in combat sports</li>
-                <li>AI Community Engagement: Attendee and volunteer at local Vienna AI meetups</li>
-              </ul>
-            </section>
-          </div>
-
-          <div class="cv-sidebar">
-            <section class="education">
-              <h2>Education</h2>
-              <div class="education-item">
-                <h3>Bachelor of Business Administration</h3>
-                <span class="institution">Webster University Vienna, Austria</span>
-                <span class="date">Expected May 2026</span>
-                <p class="gpa">Current GPA: 3.5/4</p>
-                <div class="coursework">
-                  <h4>Relevant Coursework:</h4>
-                  <ul>
-                    <li>Financial Analysis</li>
-                    <li>Business Process Management</li>
-                    <li>Data Analytics</li>
-                    <li>AI in Business</li>
+              <section class="experience">
+                <h2>Entrepreneurial Experience</h2>
+                
+                <div class="experience-item">
+                  <div class="experience-header">
+                    <h3>Co-Founder & CEO</h3>
+                    <span class="company">BSC, Vienna, Austria</span>
+                    <span class="date">Jan 2025 – Present</span>
+                  </div>
+                  <ul class="achievement-list">
+                    <li>Conceptualized and launched interactive business-learning events for 100+ students, integrating live workshops, networking sessions and AI-powered analytics.</li>
+                    <li>Developed a 4-5 week business mentorship course with top entrepreneurs as mentors, guiding students to create their MVPs. The program leverages AI as a tool for efficiency and insight, but is focused on practical business building and mentorship.</li>
+                    <li>Organized end-to-end event processes—vendor sourcing, scheduling, marketing—achieving 95% participant satisfaction in pilot events.</li>
+                    <li>Lead a cross-functional team of 5 peers; instituted weekly KPI reviews and streamlined communications, reducing planning time by 30%.</li>
                   </ul>
                 </div>
-              </div>
 
-              <div class="education-item">
-                <h3>Finance Studies (3 years completed)</h3>
-                <span class="institution">Financial University, Moscow</span>
-                <span class="date">2019 – 2022</span>
-                <p>Completed three years toward a Bachelor in Finance; foundational expertise in corporate finance, risk management and financial modelling.</p>
-              </div>
-            </section>
+                <div class="experience-item">
+                  <div class="experience-header">
+                    <h3>Founder & Managing Director</h3>
+                    <span class="company">Olive Crown Estate, Girne Cyprus</span>
+                    <span class="date">Mar 2022 – Mar 2023</span>
+                  </div>
+                  <ul class="achievement-list">
+                    <li>Established and operated a boutique agency specializing in residential property sales and rentals.</li>
+                    <li>Negotiated contracts and managed client relationships.</li>
+                    <li>Implemented CRM and automated workflow systems to track leads, appointments and document management, cutting administrative overhead by 40%.</li>
+                    <li>Coordinated remote and local teams, honing organizational skills and fostering a collaborative culture.</li>
+                  </ul>
+                </div>
+              </section>
 
-            <section class="skills">
-              <h2>Key Skills</h2>
-              <div class="skills-grid">
-                <div class="skill-category">
-                  <h3>Process Optimization</h3>
-                  <p>Mapping, automation and continuous improvement of business workflows.</p>
-                </div>
-                <div class="skill-category">
-                  <h3>AI & Data Literacy</h3>
-                  <p>Applying machine learning tools for predictive insights and sustainable operations.</p>
-                </div>
-                <div class="skill-category">
-                  <h3>Project & Event Management</h3>
-                  <p>End-to-end planning, budgeting and execution of student-focused programs.</p>
-                </div>
-                <div class="skill-category">
-                  <h3>Leadership & Collaboration</h3>
-                  <p>Guiding small teams, setting clear objectives and nurturing professional growth.</p>
-                </div>
-              </div>
-            </section>
+              <section class="interests">
+                <h2>Interests & Extracurriculars</h2>
+                <ul class="interest-list">
+                  <li>Gym & Fitness: Active gym-goer, climbing enthusiast, and participant in combat sports</li>
+                  <li>AI Community Engagement: Attendee and volunteer at local Vienna AI meetups</li>
+                </ul>
+              </section>
+            </div>
 
-            <section class="languages">
-              <h2>Languages</h2>
-              <ul class="language-list">
-                <li>Russian (native)</li>
-                <li>English (fluent)</li>
-                <li>Spanish (basic)</li>
-                <li>German (basic)</li>
-              </ul>
-            </section>
+            <div class="cv-sidebar">
+              <section class="education">
+                <h2>Education</h2>
+                <div class="education-item">
+                  <h3>Bachelor of Business Administration</h3>
+                  <span class="institution">Webster University Vienna, Austria</span>
+                  <span class="date">Expected May 2026</span>
+                  <p class="gpa">Current GPA: 3.5/4</p>
+                  <div class="coursework">
+                    <h4>Relevant Coursework:</h4>
+                    <ul>
+                      <li>Financial Analysis</li>
+                      <li>Business Process Management</li>
+                      <li>Data Analytics</li>
+                      <li>AI in Business</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="education-item">
+                  <h3>Finance Studies (3 years completed)</h3>
+                  <span class="institution">Financial University, Moscow</span>
+                  <span class="date">2019 – 2022</span>
+                  <p>Completed three years toward a Bachelor in Finance; foundational expertise in corporate finance, risk management and financial modelling.</p>
+                </div>
+              </section>
+
+              <section class="skills">
+                <h2>Key Skills</h2>
+                <div class="skills-grid">
+                  <div class="skill-category">
+                    <h3>Process Optimization</h3>
+                    <p>Mapping, automation and continuous improvement of business workflows.</p>
+                  </div>
+                  <div class="skill-category">
+                    <h3>AI & Data Literacy</h3>
+                    <p>Applying machine learning tools for predictive insights and sustainable operations.</p>
+                  </div>
+                  <div class="skill-category">
+                    <h3>Project & Event Management</h3>
+                    <p>End-to-end planning, budgeting and execution of student-focused programs.</p>
+                  </div>
+                  <div class="skill-category">
+                    <h3>Leadership & Collaboration</h3>
+                    <p>Guiding small teams, setting clear objectives and nurturing professional growth.</p>
+                  </div>
+                </div>
+              </section>
+
+              <section class="languages">
+                <h2>Languages</h2>
+                <ul class="language-list">
+                  <li>Russian (native)</li>
+                  <li>English (fluent)</li>
+                  <li>Spanish (basic)</li>
+                  <li>German (basic)</li>
+                </ul>
+              </section>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-    
-    <section class="cta-section">
-      <div class="container">
-        <h2>Why I'm a Fit</h2>
-        <p>
-          As both a student and entrepreneur, I thrive on learning and adapting. My hands-on ventures demonstrate a pragmatic approach to optimizing resources and implementing AI to drive efficiency. I am excited to contribute a fresh, analytical mindset—and genuine humility—to a European team seeking sustainable, cost-effective innovations.
-        </p>
-        <div class="cta-buttons">
-          <a href="mailto:orlovantonle@gmail.com" class="cta-button primary">Email Me</a>
-          <a href="https://www.linkedin.com/in/anton-orlov-b16126269/" class="cta-button secondary" target="_blank">Connect on LinkedIn</a>
+      </section>
+      
+      <section class="cta-section">
+        <div class="container">
+          <h2>Why I'm a Fit</h2>
+          <p>
+            As both a student and entrepreneur, I thrive on learning and adapting. My hands-on ventures demonstrate a pragmatic approach to optimizing resources and implementing AI to drive efficiency. I am excited to contribute a fresh, analytical mindset—and genuine humility—to a European team seeking sustainable, cost-effective innovations.
+          </p>
+          <div class="cta-buttons">
+            <a href="mailto:orlovantonle@gmail.com" class="cta-button primary">Email Me</a>
+            <a href="https://www.linkedin.com/in/anton-orlov-b16126269/" class="cta-button secondary" target="_blank">Connect on LinkedIn</a>
+          </div>
         </div>
-      </div>
-    </section>
-  </main>
-  
-  <Footer />
-</BaseLayout>
+      </section>
+    </main>
+    
+    <Footer />
+  </body>
+</html>
 
 <style>
   .cv-page {
