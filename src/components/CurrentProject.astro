@@ -1,0 +1,493 @@
+---
+import BSCCarousel from "./BSCCarousel";
+---
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const revealElements = document.querySelectorAll(".reveal-fade");
+    const flowSteps = document.querySelectorAll(".flow-step");
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("revealed");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    });
+
+    revealElements.forEach(element => {
+      observer.observe(element);
+    });
+
+    // Staggered animation for flow steps
+    flowSteps.forEach((step, i) => {
+      (step as HTMLElement).style.transitionDelay = `${i * 120}ms`;
+    });
+  });
+</script>
+
+<section class="current-project">
+  <div class="container">
+    <div class="section-header reveal-fade">
+      <span class="section-label">Current Project</span>
+      <h2>BSC</h2>
+    </div>
+
+    <div class="project-grid">
+      <div class="project-content reveal-fade">
+        <div class="content-card card-equal-height card-hover">
+          <h3>Connecting Students with Top Entrepreneurs</h3>
+          <p class="project-description">
+            We organize free, high-impact events at universities featuring successful entrepreneurs and industry leaders. Through these events, we identify promising talent and offer an intensive accelerator program for selected students to transform their ideas into market-ready ventures.
+          </p>
+
+          <div class="key-features">
+            <div class="feature">
+              <div class="feature-icon">🎓</div>
+              <div class="feature-content">
+                <h4>Free University Events</h4>
+                <p>Regular on-campus events featuring top entrepreneurs and industry leaders, creating valuable networking opportunities for all students.</p>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">⚡</div>
+              <div class="feature-content">
+                <h4>Accelerator Program</h4>
+                <p>Selected students receive intensive 4-6 week mentorship, workshops, and guidance to develop their ventures into market-ready products.</p>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">🤝</div>
+              <div class="feature-content">
+                <h4>Equity-Aligned Mentorship</h4>
+                <p>Mentors are incentivized through equity in successful ventures, ensuring deep commitment to student success.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="program-stats">
+            <div class="stat">
+              <span class="stat-number">Free</span>
+              <span class="stat-label">Events</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">4-6</span>
+              <span class="stat-label">Weeks</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">MVP</span>
+              <span class="stat-label">Outcome</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-visual reveal-fade">
+        <div class="visual-card card-equal-height card-hover">
+          <div class="visual-content">
+            <div class="program-flow">
+              <div class="flow-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>Free Campus Events</h4>
+                  <p>Regular events with top entrepreneurs open to all students</p>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>Talent Identification</h4>
+                  <p>Selecting promising founders from event participants</p>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h4>Accelerator Program</h4>
+                  <p>Intensive mentorship and development for selected founders</p>
+                </div>
+              </div>
+              <div class="flow-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h4>MVP Launch</h4>
+                  <p>Market-ready product development and launch</p>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-container">
+              <BSCCarousel client:only="react" />
+            </div>
+            <a
+              href="https://bsc-at.com"
+              class="cta-button"
+              target="_blank"
+              rel="noopener noreferrer"
+              style="margin-top:2rem;align-self:center;"
+            >
+              Visit Project Website
+              <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.current-project {
+  padding: 8rem 2rem;
+  background: linear-gradient(to bottom, #0a0a0a, #111111);
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-label {
+  display: inline-block;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #d38f41;
+  margin-bottom: 1rem;
+}
+
+.section-header h2 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: stretch;
+}
+
+.content-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 1.5rem;
+  padding: 3rem;
+  backdrop-filter: blur(10px);
+}
+
+.content-card h3 {
+  font-size: 2rem;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.project-description {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 3rem;
+}
+
+.key-features {
+  display: grid;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.feature {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.feature-icon {
+  font-size: 1.5rem;
+  background: rgba(211, 143, 65, 0.1);
+  padding: 1rem;
+  border-radius: 1rem;
+  flex-shrink: 0;
+}
+
+.feature-content h4 {
+  color: #ffffff;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.feature-content p {
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.program-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #d38f41;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.visual-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 1.5rem;
+  padding: 3rem;
+  height: 100%;
+}
+
+.visual-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.program-flow {
+  display: grid;
+  gap: 2rem;
+}
+
+.flow-step {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  position: relative;
+}
+
+.flow-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 1.25rem;
+  top: 3rem;
+  bottom: -2rem;
+  width: 2px;
+  background: rgba(211, 143, 65, 0.2);
+}
+
+.step-number {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: #d38f41;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.step-content h4 {
+  color: #ffffff;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.step-content p {
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.carousel-container {
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 2rem;
+}
+
+:global(.embla__slide) {
+  flex: 0 0 100%;
+  min-width: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+
+:global(.embla__slide img) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.card-equal-height {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+}
+
+.reveal-fade {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+.reveal-fade.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.flow-step {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+.revealed .flow-step,
+.flow-step.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: #d38f41;
+  color: white;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 2px 12px 0 rgba(211,143,65,0.08);
+}
+.cta-button:hover {
+  background: #c17d2f;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 24px 0 rgba(211,143,65,0.15);
+}
+
+.arrow-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.cta-button:hover .arrow-icon {
+  transform: translateX(4px);
+}
+
+@media (max-width: 1024px) {
+  .current-project {
+    padding: 6rem 1.5rem;
+  }
+
+  .section-header h2 {
+    font-size: 3rem;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .card-equal-height {
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .current-project {
+    padding: 4rem 1rem;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .content-card, .visual-card {
+    padding: 2rem;
+  }
+
+  .content-card h3 {
+    font-size: 1.75rem;
+  }
+
+  .program-stats {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .current-project {
+    padding: 3rem 0.75rem;
+  }
+
+  .section-header h2 {
+    font-size: 2rem;
+  }
+
+  .content-card, .visual-card {
+    padding: 1.5rem;
+  }
+
+  .feature {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .feature-icon {
+    margin-bottom: 1rem;
+  }
+}
+
+.card-hover {
+  transition: box-shadow 0.35s cubic-bezier(0.4,0,0.2,1),
+              transform 0.35s cubic-bezier(0.4,0,0.2,1),
+              border-color 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+.card-hover:hover {
+  box-shadow: 0 10px 32px 0 rgba(211,143,65,0.18), 0 2px 8px 0 rgba(0,0,0,0.10);
+  transform: translateY(-6px) scale(1.015);
+  border-color: #d38f41;
+  background: rgba(255,255,255,0.05);
+}
+</style> 
