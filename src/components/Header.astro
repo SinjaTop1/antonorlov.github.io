@@ -19,16 +19,19 @@ import ContactForm from "../components/ContactForm";
       </a>
     </div>
     
-    <div class="center-group">
+    <div class="center-group" id="mobile-menu">
       <a href="/" class="logo">Anton Orlov</a>
       <div class="nav-links" id="nav-links">
         <a href="/" class="nav-link">Home</a>
         <a href="/about" class="nav-link">CV</a>
         <a href="/blog" class="nav-link">Blog</a>
+        <div class="mobile-contact-button">
+          <ContactForm client:load />
+        </div>
       </div>
     </div>
     
-    <div class="contact-button-container">
+    <div class="contact-button-container desktop-contact-button">
       <ContactForm client:load />
     </div>
     
@@ -47,35 +50,35 @@ import ContactForm from "../components/ContactForm";
 document.addEventListener("DOMContentLoaded", function() {
   // Mobile menu toggle functionality
   const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-  const navLinksContainer = document.getElementById('nav-links');
+  const mobileMenu = document.getElementById('mobile-menu');
   const headerElement = document.querySelector('.nav');
   
-  if (mobileMenuToggle && navLinksContainer) {
+  if (mobileMenuToggle && mobileMenu) {
     mobileMenuToggle.addEventListener('click', function() {
       mobileMenuToggle.classList.toggle('active');
-      navLinksContainer.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
       document.body.classList.toggle('menu-open');
     });
     
     // Close menu when clicking outside
     document.addEventListener('click', function(event) {
       const target = event.target as HTMLElement;
-      const isClickInside = navLinksContainer.contains(target) || 
+      const isClickInside = mobileMenu.contains(target) || 
                             mobileMenuToggle.contains(target);
       
-      if (!isClickInside && navLinksContainer.classList.contains('active')) {
+      if (!isClickInside && mobileMenu.classList.contains('active')) {
         mobileMenuToggle.classList.remove('active');
-        navLinksContainer.classList.remove('active');
+        mobileMenu.classList.remove('active');
         document.body.classList.remove('menu-open');
       }
     });
     
     // Close menu when clicking on a link
-    const navItems = navLinksContainer.querySelectorAll('.nav-link');
+    const navItems = mobileMenu.querySelectorAll('.nav-link');
     navItems.forEach(item => {
       item.addEventListener('click', function() {
         mobileMenuToggle.classList.remove('active');
-        navLinksContainer.classList.remove('active');
+        mobileMenu.classList.remove('active');
         document.body.classList.remove('menu-open');
       });
     });
@@ -353,6 +356,10 @@ form .text-red-500 {
   align-items: center;
 }
 
+.mobile-contact-button {
+  display: none;
+}
+
 .divider {
   width: 100%;
   height: 1px;
@@ -457,8 +464,15 @@ form .text-red-500 {
     text-align: left;
   }
   
-  .contact-button-container {
-    margin-left: auto;
+  .desktop-contact-button {
+    display: flex;
+  }
+  
+  .mobile-contact-button {
+    display: flex;
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: center;
   }
   
   body.menu-open {
