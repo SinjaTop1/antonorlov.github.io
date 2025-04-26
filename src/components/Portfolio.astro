@@ -1,0 +1,344 @@
+---
+// Portfolio data
+const portfolioItems = [
+  {
+    title: "BSC",
+    type: "Landing Page",
+    description: "A comprehensive landing page for BSC, a startup accelerator program and workshop series for students. With complete custom form creation functionality and a fully responsive design.",
+    imageUrl: "/bsc.png",
+    liveUrl: "https://bsc-at.com,
+    techStack: ["React", "Node.js", "MongoDB", "Express"],
+    caseStudy: "How it optimized inventory management workflow by 65%"
+  },
+  {
+    title: "EcoTravel",
+    type: "Website",
+    description: "A sustainable travel platform connecting eco-conscious travelers with green accommodations and experiences worldwide.",
+    imageUrl: "/images/portfolio/eco-travel.jpg",
+    liveUrl: "https://ecotravel.example.com",
+    techStack: ["Astro", "Tailwind CSS", "Sanity.io", "Netlify"],
+    caseStudy: "How it increased booking conversions by 42%"
+  },
+  {
+    title: "HealthTrack",
+    type: "App",
+    description: "A mobile health monitoring application that tracks vital signs and provides personalized wellness recommendations.",
+    imageUrl: "/images/portfolio/health-track.jpg",
+    liveUrl: "https://healthtrack.example.com",
+    techStack: ["React Native", "Firebase", "Redux", "Node.js"],
+    caseStudy: "How it reduced user health incidents by 38%"
+  },
+  {
+    title: "LocalEats",
+    type: "Website",
+    description: "A platform connecting foodies with local restaurants, featuring reviews, reservations, and exclusive deals.",
+    imageUrl: "/images/portfolio/local-eats.jpg",
+    liveUrl: "https://localeats.example.com",
+    techStack: ["Next.js", "TypeScript", "PostgreSQL", "Stripe"],
+    caseStudy: "How it increased restaurant bookings by 53%"
+  },
+  {
+    title: "TaskMaster",
+    type: "App",
+    description: "A productivity app that combines task management with time tracking and team collaboration features.",
+    imageUrl: "/images/portfolio/task-master.jpg",
+    liveUrl: "https://taskmaster.example.com",
+    techStack: ["Vue.js", "Vuex", "Firebase", "Tailwind CSS"],
+    caseStudy: "How it improved team productivity by 47%"
+  },
+  {
+    title: "ArtGallery",
+    type: "Website",
+    description: "An online art marketplace connecting artists with collectors, featuring virtual exhibitions and secure transactions.",
+    imageUrl: "/images/portfolio/art-gallery.jpg",
+    liveUrl: "https://artgallery.example.com",
+    techStack: ["React", "GraphQL", "AWS", "Stripe"],
+    caseStudy: "How it increased artist sales by 61%"
+  }
+];
+---
+
+<section class="portfolio-section" id="portfolio" aria-label="Portfolio">
+  <div class="section-container">
+    <div class="section-header">
+      <h2>Portfolio</h2>
+      <div class="header-line"></div>
+    </div>
+
+    <div class="portfolio-grid">
+      {portfolioItems.map((item, index) => (
+        <article class="portfolio-card" data-index={index}>
+          <div class="card-inner">
+            <div class="card-front">
+              <div class="card-image">
+                <img src={item.imageUrl} alt={`Screenshot of ${item.title}`} />
+                <div class="card-type">{item.type}</div>
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">{item.title}</h3>
+                <p class="card-description">{item.description}</p>
+                <div class="tech-stack">
+                  {item.techStack.map((tech) => (
+                    <span class="tech-tag">{tech}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div class="card-back">
+              <div class="case-study">
+                <h4>Case Study</h4>
+                <p>{item.caseStudy}</p>
+              </div>
+              {item.liveUrl && (
+                <a href={item.liveUrl} class="view-button" target="_blank" rel="noopener noreferrer">
+                  View Live
+                </a>
+              )}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const portfolioCards = document.querySelectorAll('.portfolio-card');
+    
+    portfolioCards.forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+      });
+      
+      // For touch devices, prevent double-tap zoom
+      card.addEventListener('touchend', (e) => {
+        e.preventDefault();
+      });
+    });
+  });
+</script>
+
+<style>
+  .portfolio-section {
+    padding: 6rem 2rem;
+    background-color: #161616;
+    position: relative;
+  }
+  
+  .section-container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  
+  .section-header h2 {
+    font-size: 2.8rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+  }
+  
+  .header-line {
+    height: 3px;
+    width: 80px;
+    background: linear-gradient(90deg, #955f21, #d38f41);
+    margin: 0 auto;
+  }
+  
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  
+  .portfolio-card {
+    perspective: 1000px;
+    height: 450px;
+    cursor: pointer;
+  }
+  
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  
+  .portfolio-card.flipped .card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+  
+  .card-front {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-back {
+    background: rgba(46, 134, 171, 0.1);
+    border: 1px solid rgba(46, 134, 171, 0.3);
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .card-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .portfolio-card:hover .card-image img {
+    transform: scale(1.05);
+  }
+  
+  .card-type {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(46, 134, 171, 0.8);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  
+  .card-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-title {
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .card-description {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+  }
+  
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .tech-tag {
+    background: rgba(46, 134, 171, 0.2);
+    color: #2E86AB;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .case-study {
+    margin-bottom: 2rem;
+  }
+  
+  .case-study h4 {
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .case-study p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+  }
+  
+  .view-button {
+    display: inline-block;
+    background: #2E86AB;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .view-button:hover {
+    background: #3a9bc7;
+    transform: translateY(-2px);
+  }
+  
+  @media (max-width: 1200px) {
+    .portfolio-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .portfolio-section {
+      padding: 4rem 1rem;
+    }
+    
+    .section-header h2 {
+      font-size: 2.2rem;
+    }
+    
+    .portfolio-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .portfolio-card {
+      height: 400px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .portfolio-section {
+      padding: 3rem 0.75rem;
+    }
+    
+    .section-header h2 {
+      font-size: 1.8rem;
+    }
+    
+    .card-title {
+      font-size: 1.3rem;
+    }
+    
+    .card-description {
+      font-size: 0.95rem;
+    }
+    
+    .card-image {
+      height: 180px;
+    }
+  }
+</style> 
