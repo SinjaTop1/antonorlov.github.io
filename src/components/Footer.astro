@@ -274,20 +274,33 @@
   }
 
   /* Responsive Adjustments */
-  @media (max-width: 900px) {
+  @media (max-width: 1024px) {
     .footer-content {
-      grid-template-columns: 1fr;
-      gap: 3rem;
+      gap: 2rem;
     }
     
     .footer-right {
-      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
     }
   }
-
-  @media (max-width: 640px) {
+  
+  @media (max-width: 768px) {
     .footer {
       padding: 3rem 0 1.5rem;
+    }
+    
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    
+    .footer-branding {
+      align-items: center;
+      text-align: center;
+    }
+    
+    .footer-tagline {
+      max-width: 100%;
     }
     
     .footer-right {
@@ -295,25 +308,77 @@
       gap: 2rem;
     }
     
-    .social-links {
-      justify-content: flex-start;
+    .footer-links-column h3,
+    .footer-contact h3 {
+      text-align: center;
+    }
+    
+    .footer-links-column h3::after,
+    .footer-contact h3::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .footer-links-column ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+    
+    .footer-links-column ul li {
+      margin-bottom: 0;
+    }
+    
+    .footer-contact {
+      text-align: center;
     }
     
     .contact-email {
-      display: flex;
-      width: 100%;
+      justify-content: center;
     }
   }
-
+  
   @media (max-width: 480px) {
-    .social-link {
-      width: 36px;
-      height: 36px;
+    .footer {
+      padding: 2.5rem 0 1.5rem;
+    }
+    
+    .footer-container {
+      padding: 0 1rem;
     }
     
     .logo-text {
       font-size: 1.3rem;
       padding: 0.25rem 1rem;
+    }
+    
+    .footer-tagline {
+      font-size: 0.9rem;
+    }
+    
+    .social-link {
+      width: 36px;
+      height: 36px;
+    }
+    
+    .footer-links-column h3,
+    .footer-contact h3 {
+      font-size: 1rem;
+    }
+    
+    .footer-links-column ul li a,
+    .footer-contact p,
+    .contact-email {
+      font-size: 0.9rem;
+    }
+    
+    .footer-links-column ul {
+      gap: 0.8rem;
+    }
+    
+    .copyright {
+      font-size: 0.8rem;
     }
   }
 </style>

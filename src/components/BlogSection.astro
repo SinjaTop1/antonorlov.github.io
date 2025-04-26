@@ -528,41 +528,170 @@ const allTags = [...new Set(allBlogPosts.flatMap(post => post.data.tags || []))]
   }
 
   /* Responsive Styles */
-  @media (max-width: 900px) {
+  @media (max-width: 1024px) {
+    .blog-section {
+      padding: 4rem 1.5rem;
+    }
+    
+    .blog-container {
+      gap: 2rem;
+    }
+    
     .content-wrapper {
       grid-template-columns: 1fr;
+      gap: 2.5rem;
     }
-
-    .sidebar {
-      gap: 1.5rem;
+    
+    .featured-post {
+      grid-template-columns: 1fr;
+    }
+    
+    .post-image {
+      aspect-ratio: 16/9;
+    }
+    
+    .post-content {
+      padding: 2rem;
+    }
+    
+    .post-content h3 {
+      font-size: 1.8rem;
+    }
+    
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
-
-  @media (max-width: 480px) {
+  
+  @media (max-width: 768px) {
     .blog-section {
       padding: 3rem 1rem;
     }
-
+    
     .section-header h2 {
       font-size: 2rem;
     }
-
+    
+    .post-content h3 {
+      font-size: 1.6rem;
+    }
+    
+    .post-excerpt {
+      font-size: 1rem;
+    }
+    
+    .post-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    
+    .blog-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .blog-card {
+      padding: 1.5rem;
+    }
+    
+    .blog-card h3 {
+      font-size: 1.4rem;
+    }
+    
+    .blog-card p {
+      font-size: 0.95rem;
+    }
+    
+    .sidebar {
+      padding: 1.5rem;
+    }
+    
+    .newsletter-box h3,
+    .all-posts-link h3 {
+      font-size: 1.3rem;
+    }
+    
+    .newsletter-form {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .newsletter-form input {
+      width: 100%;
+    }
+    
+    .newsletter-form button {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .blog-section {
+      padding: 2.5rem 0.75rem;
+    }
+    
+    .section-header h2 {
+      font-size: 1.8rem;
+    }
+    
     .post-content {
       padding: 1.5rem;
     }
-
-    .post-date {
-      right: 15px;
-      padding: 8px 12px;
+    
+    .post-content h3 {
+      font-size: 1.4rem;
     }
-
-    .post-date .day {
+    
+    .post-excerpt {
+      font-size: 0.95rem;
+    }
+    
+    .read-more {
+      padding: 0.7rem 1.2rem;
+      font-size: 0.9rem;
+    }
+    
+    .blog-card {
+      padding: 1.2rem;
+    }
+    
+    .blog-card h3 {
       font-size: 1.2rem;
     }
-
-    .newsletter-box, 
-    .all-posts-link {
-      padding: 1.5rem;
+    
+    .blog-card p {
+      font-size: 0.9rem;
+    }
+    
+    .blog-card-meta {
+      font-size: 0.8rem;
+    }
+    
+    .sidebar {
+      padding: 1.2rem;
+    }
+    
+    .newsletter-box h3,
+    .all-posts-link h3 {
+      font-size: 1.2rem;
+    }
+    
+    .newsletter-box p,
+    .all-posts-link p {
+      font-size: 0.9rem;
+    }
+    
+    .form-footer {
+      font-size: 0.8rem;
+    }
+    
+    .topic-list a {
+      font-size: 0.9rem;
+    }
+    
+    .view-all-posts {
+      font-size: 0.9rem;
     }
   }
 </style>

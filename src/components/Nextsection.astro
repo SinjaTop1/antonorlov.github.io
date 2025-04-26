@@ -364,42 +364,153 @@ import BSCCarousel from "../components/BSCCarousel";
   100% { background-position: 0% 50%; }
 }
 
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .next-section {
+    padding: 5rem 1.5rem;
+  }
+  
+  .section-heading h1 {
+    font-size: 3.5rem;
+  }
+  
+  .content-wrapper {
+    padding: 2.5rem;
+  }
+  
+  .gradient-text {
+    font-size: 2rem;
+  }
+  
+  .mission-statement {
+    font-size: 1.2rem;
+  }
+  
+  .key-point p {
+    font-size: 1rem;
+  }
+}
+
 @media (max-width: 768px) {
   .next-section {
     padding: 4rem 1rem;
+    flex-direction: column;
   }
-
+  
+  .section-heading {
+    margin-bottom: 3rem;
+  }
+  
   .section-heading h1 {
     font-size: 3rem;
+    letter-spacing: 0.15em;
   }
-
+  
+  .section-heading h2 {
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+  }
+  
+  .BSC-left, .BSC-right {
+    padding: 1rem;
+    width: 100%;
+  }
+  
   .content-wrapper {
     padding: 2rem;
   }
-
+  
   .gradient-text {
     font-size: 1.8rem;
   }
-
+  
   .mission-statement {
     font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .key-points {
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .key-point {
+    padding: 1.2rem;
+  }
+  
+  .icon-wrapper {
+    padding: 0.8rem;
+  }
+  
+  .icon {
+    font-size: 1.3rem;
+  }
+  
+  .key-point p {
+    font-size: 0.95rem;
+  }
+  
+  .carousel-wrapper {
+    margin-top: 2rem;
   }
 }
 
 @media (max-width: 480px) {
+  .next-section {
+    padding: 3rem 0.75rem;
+  }
+  
   .section-heading h1 {
     font-size: 2.5rem;
     letter-spacing: 0.1em;
   }
-
+  
+  .section-heading h2 {
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+  }
+  
+  .content-wrapper {
+    padding: 1.5rem;
+  }
+  
+  .gradient-text {
+    font-size: 1.5rem;
+  }
+  
+  .mission-statement {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .key-points {
+    gap: 1rem;
+  }
+  
   .key-point {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    padding: 1rem;
   }
-
+  
   .icon-wrapper {
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .cta-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .arrow-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  :global(.embla__button) {
+    width: 32px;
+    height: 32px;
   }
 }
 </style>

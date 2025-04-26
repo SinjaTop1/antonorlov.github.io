@@ -132,22 +132,21 @@
   }
 
   .hero-left {
-    flex: 1 1 60%;
+    flex: 1 1 50%;
     display: flex;
-    position: relative;
     flex-direction: column;
     justify-content: center;
-    min-width: 300px;
-    z-index: 1;
     padding-right: 2rem;
+    position: relative;
+    z-index: 1;
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateX(-20px);
     transition: opacity 0.8s ease, transform 0.8s ease;
   }
   
   .hero-left.animate-in {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 
   .name {
@@ -408,14 +407,8 @@
 }
 
 @keyframes mouseWheel {
-  0%, 100% {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-  50% {
-    opacity: 0.5;
-    transform: translateX(-50%) translateY(10px);
-  }
+  0% { transform: translate(-50%, 0); opacity: 1; }
+  100% { transform: translate(-50%, 15px); opacity: 0; }
 }
 
 .scroll-text {
@@ -466,64 +459,96 @@
 
   @media (max-width: 768px) {
     .hero {
-      padding: 6rem 5vw 4rem;
+      padding: 70px 5vw 2rem 5vw;
+      flex-direction: column;
+      text-align: center;
     }
     
-    .hero-left, .hero-right {
-      padding: 1rem 0;
+    .hero-left {
+      padding-right: 0;
+      margin-bottom: 3rem;
+      align-items: center;
     }
     
-    .name {
-      font-size: 3.2rem;
+    .hero-title {
+      font-size: 2.5rem;
     }
     
-    .tagline {
-      font-size: 1.4rem;
-      margin-bottom: 1.5rem;
-    }
-    
-    .summary {
+    .hero-subtitle {
       font-size: 1.2rem;
     }
     
-    .decorative-shape {
-      opacity: 0.15;
+    .hero-description {
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .hero-right {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .hero-image {
+      max-width: 80%;
+    }
+    
+    .shape-1 {
+      width: 40vw;
+      height: 40vw;
+      top: -5%;
+    }
+    
+    .shape-2 {
+      width: 35vw;
+      height: 35vw;
+      bottom: -2%;
     }
   }
 
   @media (max-width: 480px) {
     .hero {
-      padding: 5rem 1.5rem 5rem;
+      padding: 60px 4vw 2rem 4vw;
     }
     
-    .name {
-      font-size: 2.8rem;
+    .hero-title {
+      font-size: 2rem;
     }
     
-    .tagline {
-      font-size: 1.25rem;
-    }
-    
-    .summary {
+    .hero-subtitle {
       font-size: 1.1rem;
     }
     
-    .summary-container {
-      padding: 1.2rem;
+    .hero-description {
+      font-size: 0.95rem;
     }
     
-    .link-circles {
-      margin-top: 1.8rem;
+    .hero-cta {
+      padding: 0.8rem 1.5rem;
+      font-size: 0.9rem;
     }
     
-    .circle-link {
-      width: 50px;
-      height: 50px;
+    .hero-cta svg {
+      width: 16px;
+      height: 16px;
     }
     
-    .circle-link svg {
-      width: 25px;
-      height: 25px;
+    .hero-image {
+      max-width: 90%;
+    }
+    
+    .shape-1 {
+      width: 50vw;
+      height: 50vw;
+    }
+    
+    .shape-2 {
+      width: 45vw;
+      height: 45vw;
+    }
+    
+    .scroll-indicator-container {
+      bottom: 1.5rem;
     }
     
     .mouse-shape {

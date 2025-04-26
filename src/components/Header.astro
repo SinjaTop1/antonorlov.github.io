@@ -18,17 +18,25 @@ import ContactForm from "../components/ContactForm";
         </svg>
       </a>
     </div>
+    
     <div class="center-group">
       <a href="/" class="logo">Anton Orlov</a>
-      <div class="nav-links">
+      <div class="nav-links" id="nav-links">
         <a href="/" class="nav-link">Home</a>
         <a href="/about" class="nav-link">CV</a>
         <a href="/blog" class="nav-link">Blog</a>
       </div>
     </div>
+    
     <div class="contact-button-container">
       <ContactForm client:load />
     </div>
+    
+    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
   </nav>
   <div class="divider"></div>
 </header>
@@ -37,45 +45,40 @@ import ContactForm from "../components/ContactForm";
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  const socialLeft = document.querySelector('.social-links.left');
-  const socialRight = document.querySelector('.social-links.right');
-  const logo = document.querySelector('.logo-container');
-  const navContent = document.querySelector('.nav-content');
-  const contactButton = document.querySelector('.contact-button-container');
-  const navLinksContainer = document.querySelector('.nav-links');
+  // Mobile menu toggle functionality
+  const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+  const navLinksContainer = document.getElementById('nav-links');
+  const headerElement = document.querySelector('.nav');
   
-  // Add null checks before accessing properties
-  if (socialLeft && socialRight && logo && navContent && contactButton && navLinksContainer) {
-    // Initially hide the social links and contact button
-    socialLeft.classList.add('hidden');
-    socialRight.classList.add('hidden');
-    contactButton.classList.add('hidden');
-    navLinksContainer.classList.add('hidden');
+  if (mobileMenuToggle && navLinksContainer) {
+    mobileMenuToggle.addEventListener('click', function() {
+      mobileMenuToggle.classList.toggle('active');
+      navLinksContainer.classList.toggle('active');
+      document.body.classList.toggle('menu-open');
+    });
     
-    // Show elements with a staggered delay
-    setTimeout(() => {
-      socialLeft.classList.remove('hidden');
-      socialLeft.classList.add('fade-in');
-    }, 300);
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const target = event.target as HTMLElement;
+      const isClickInside = navLinksContainer.contains(target) || 
+                            mobileMenuToggle.contains(target);
+      
+      if (!isClickInside && navLinksContainer.classList.contains('active')) {
+        mobileMenuToggle.classList.remove('active');
+        navLinksContainer.classList.remove('active');
+        document.body.classList.remove('menu-open');
+      }
+    });
     
-    setTimeout(() => {
-      logo.classList.add('fade-in');
-    }, 500);
-    
-    setTimeout(() => {
-      socialRight.classList.remove('hidden');
-      socialRight.classList.add('fade-in');
-    }, 700);
-    
-    setTimeout(() => {
-      contactButton.classList.remove('hidden');
-      contactButton.classList.add('fade-in');
-    }, 900);
-    
-    setTimeout(() => {
-      navLinksContainer.classList.remove('hidden');
-      navLinksContainer.classList.add('fade-in');
-    }, 1100);
+    // Close menu when clicking on a link
+    const navItems = navLinksContainer.querySelectorAll('.nav-link');
+    navItems.forEach(item => {
+      item.addEventListener('click', function() {
+        mobileMenuToggle.classList.remove('active');
+        navLinksContainer.classList.remove('active');
+        document.body.classList.remove('menu-open');
+      });
+    });
   }
   
   // Add active class to current page link
@@ -87,6 +90,24 @@ document.addEventListener("DOMContentLoaded", function() {
     if (currentPath === linkPath || (currentPath === '/' && linkPath === '/')) {
       link.classList.add('active');
     }
+  });
+  
+  // Handle scroll behavior
+  let lastScrollTop = 0;
+  window.addEventListener('scroll', function() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (headerElement) {
+      if (scrollTop > lastScrollTop && scrollTop > 100) {
+        // Scrolling down
+        headerElement.classList.add('header-hidden');
+      } else {
+        // Scrolling up
+        headerElement.classList.remove('header-hidden');
+      }
+    }
+    
+    lastScrollTop = scrollTop;
   });
 });
 </script>
@@ -252,7 +273,13 @@ form .text-red-500 {
   flex-direction: column;
   justify-content: center;
   box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
 }
+
+.header-hidden {
+  transform: translateY(-72px);
+}
+
 .header-row {
   display: flex;
   align-items: center;
@@ -262,16 +289,20 @@ form .text-red-500 {
   margin: 0 auto;
   width: 100%;
   padding: 0 2rem;
+  position: relative;
 }
+
 .social-links {
   display: flex;
   gap: 0.7rem;
 }
+
 .center-group {
   display: flex;
   align-items: center;
   gap: 2.5rem;
 }
+
 .logo {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.5rem;
@@ -281,10 +312,12 @@ form .text-red-500 {
   margin-right: 2rem;
   letter-spacing: 0.05rem;
 }
+
 .nav-links {
   display: flex;
   gap: 1.5rem;
 }
+
 .nav-link {
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
@@ -295,9 +328,11 @@ form .text-red-500 {
   padding: 0.5rem 0;
   transition: color 0.3s;
 }
+
 .nav-link:hover, .nav-link.active {
   color: #fff;
 }
+
 .nav-link::after {
   content: '';
   position: absolute;
@@ -308,28 +343,145 @@ form .text-red-500 {
   background: linear-gradient(90deg, #d38f41, #64155f);
   transition: width 0.3s;
 }
+
 .nav-link:hover::after, .nav-link.active::after {
   width: 100%;
 }
+
 .contact-button-container {
   display: flex;
   align-items: center;
 }
+
 .divider {
   width: 100%;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(211,143,65,0.3), transparent);
 }
-@media (max-width: 900px) {
-  .header-row { padding: 0 1rem; }
-  .center-group { gap: 1rem; }
-  .logo { margin-right: 1rem; font-size: 1.1rem; }
-  .nav-links { gap: 0.7rem; }
+
+/* Mobile menu toggle button */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
 }
-@media (max-width: 600px) {
-  .header-row { flex-direction: column; height: auto; padding: 0.5rem 0.5rem; }
-  .center-group { flex-direction: column; gap: 0.5rem; }
-  .nav-links { flex-direction: column; gap: 0.3rem; }
-  .contact-button-container { margin-top: 0.5rem; }
+
+.hamburger-line {
+  width: 100%;
+  height: 3px;
+  background-color: #fff;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+  .header-row { 
+    padding: 0 1rem; 
+  }
+  
+  .center-group { 
+    gap: 1rem; 
+  }
+  
+  .logo { 
+    margin-right: 1rem; 
+    font-size: 1.1rem; 
+  }
+  
+  .nav-links { 
+    gap: 0.7rem; 
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  .center-group {
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    width: 100%;
+    background: rgba(22,22,22,0.97);
+    padding: 1rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .center-group.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .logo {
+    margin-bottom: 1rem;
+  }
+  
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+  }
+  
+  .nav-link {
+    display: block;
+    padding: 0.5rem 0;
+    width: 100%;
+    text-align: left;
+  }
+  
+  .contact-button-container {
+    margin-left: auto;
+  }
+  
+  body.menu-open {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-row {
+    padding: 0 0.75rem;
+  }
+  
+  .logo {
+    font-size: 1rem;
+  }
+  
+  .social-links {
+    gap: 0.5rem;
+  }
+  
+  .social-link {
+    width: 32px;
+    height: 32px;
+  }
 }
 </style>
