@@ -4,204 +4,152 @@ import BSCCarousel from "../components/BSCCarousel";
 ---
 
 <section class="next-section">
-  <!-- Removed decorative gradient shapes -->
+  <div class="particles-container" id="particles-js"></div>
 
   <div class="section-heading reveal-element">
     <h1>BSC</h1>
-    <div>
+    <div class="subtitle-wrapper">
       <h2>My Current Project</h2>
     </div>
   </div>
 
   <div class="BSC-left reveal-element">
-    <div class="content-wrapper">
-      <h2>Connecting Ambitious Minds</h2>
+    <div class="content-wrapper glass-effect">
+      <h2 class="gradient-text">Connecting Ambitious Minds</h2>
 
       <p class="mission-statement">
         We bridge the gap between entrepreneurial-minded students and industry leaders, creating opportunities that transform ideas into reality.
       </p>
 
       <div class="key-points">
-        <div class="key-point">
-          <span class="icon">🔗</span>
+        <div class="key-point hover-effect">
+          <div class="icon-wrapper">
+            <span class="icon">🔗</span>
+          </div>
           <p>Connecting students with leading professionals through networking events and Masterclasses.</p>
         </div>
 
-        <div class="key-point">
-          <span class="icon">💡</span>
+        <div class="key-point hover-effect">
+          <div class="icon-wrapper">
+            <span class="icon">💡</span>
+          </div>
           <p>Designing practical workshops and seminars that provide real-world business knowledge and entrepreneurial skills.</p>
         </div>
 
-        <div class="key-point">
-          <span class="icon">🚀</span>
+        <div class="key-point hover-effect">
+          <div class="icon-wrapper">
+            <span class="icon">🚀</span>
+          </div>
           <p>Making business accessible by providing students with the tools, resources, and community needed to launch successful ventures.</p>
         </div>
       </div>
 
       <div class="cta-container">
         <a
-          href="https://www.instagram.com/bsc_at/"
+          href="https://www.bsc-at.com/"
           class="cta-button"
           target="_blank"
           rel="noreferrer"
         >
-          Visit Us
+          <span>Visit Us</span>
+          <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </a>
       </div>
     </div>
   </div>
 
   <div class="BSC-right reveal-element">
-    <div class="carousel-wrapper">
-      <!-- Use the dedicated React component -->
+    <div class="carousel-wrapper glass-effect">
       <BSCCarousel client:only="react" />
     </div>
   </div>
 </section>
 
 <script>
-  // Optimized reveal animation script with debounce
+  // Optimized reveal animation script with Intersection Observer
   document.addEventListener("DOMContentLoaded", () => {
-    // Reveal elements on scroll
-    const revealElements: NodeListOf<HTMLElement> = document.querySelectorAll(".reveal-element");
+    const revealElements = document.querySelectorAll(".reveal-element");
     
-    // Debounce scroll function to improve performance
-    let isScrolling: number;
-    function debouncedCheckScroll(): void {
-      window.clearTimeout(isScrolling);
-      isScrolling = window.setTimeout(() => {
-        checkScroll();
-      }, 20);
-    }
-    
-    function checkScroll(): void {
-      const windowHeight: number = window.innerHeight;
-      revealElements.forEach((element: HTMLElement) => {
-        const elementTop: number = element.getBoundingClientRect().top;
-        if (elementTop < windowHeight - 100) {
-          element.classList.add("revealed");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("revealed");
+          observer.unobserve(entry.target);
         }
       });
-    }
+    }, {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    });
 
-    // Initial check
-    checkScroll();
-    
-    // Check on scroll with debounce
-    window.addEventListener("scroll", debouncedCheckScroll, { passive: true });
+    revealElements.forEach(element => {
+      observer.observe(element);
+    });
   });
 </script>
 
 <style>
-/* Next Section with reveal animations */
 .next-section {
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  padding: 4rem 2rem;
+  padding: 6rem 2rem;
   min-height: 100vh;
-  background-color: #0a0a0a;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
   overflow: hidden;
 }
 
-/* Simplified texture overlay with reduced opacity */
-.next-section::before {
-  content: "";
+.particles-container {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23ffffff' fill-opacity='0.05' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
-  opacity: 0.1;
   z-index: 0;
-  pointer-events: none;
 }
 
-/* Removed decorative gradients */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
 
 .section-heading {
   width: 100%;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
   text-align: center;
   position: relative;
   z-index: 1;
 }
 
 .section-heading h1 {
-  font-size: 3.5rem;
-  font-weight: 700;
-  color: #d38f41; /* Solid color instead of gradient */
-  position: relative;
-  display: inline-block;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin: 0;
-  padding: 0 1rem;
-  background: linear-gradient(270deg, #d38f41, #ff6600, #64155f);
-  background-size: 400% 400%;
-  animation: gradientAnimation 5s ease infinite;
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(45deg, #d38f41, #ff6600, #64155f);
+  background-size: 200% 200%;
+  animation: gradientFlow 8s ease infinite;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: transparent;
-  line-height: 1.1;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 1rem;
 }
 
-.section-heading h2{
-  font-size: 1rem;
-  font-weight: 500;
-  color: #ffffff;
+.subtitle-wrapper {
   position: relative;
   display: inline-block;
-  letter-spacing: 0.1em;
+}
+
+.section-heading h2 {
+  font-size: 1.2rem;
+  color: #ffffff;
   text-transform: uppercase;
-  margin: 0;
-  padding: 0 1rem;
-}
-
-.section-heading::before,
-.section-heading::after {
-  content: "";
-  position: absolute;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #d38f41 50%, transparent);
-  width: 80%;
-  max-width: 400px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.section-heading::before {
-  top: -15px;
-}
-
-.section-heading::after {
-  bottom: -15px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .section-heading h1 {
-    font-size: 2.8rem;
-  }
-  
-  .section-heading::before,
-  .section-heading::after {
-    width: 70%;
-  }
-}
-
-@media (max-width: 480px) {
-  .section-heading h1 {
-    font-size: 2.2rem;
-    letter-spacing: 0.05em;
-  }
-  
-  .section-heading::before,
-  .section-heading::after {
-    width: 90%;
-  }
+  letter-spacing: 0.3em;
+  opacity: 0.8;
 }
 
 .BSC-left {
@@ -218,142 +166,191 @@ import BSCCarousel from "../components/BSCCarousel";
 .content-wrapper {
   max-width: 600px;
   margin: 0 auto;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 2rem;
-  border-radius: 10px;
-  /* Removed backdrop filter for better performance */
-  border: 1px solid rgba(211, 143, 65, 0.1);
+  padding: 3rem;
+  border-radius: 20px;
+  transition: transform 0.3s ease;
 }
 
-.BSC-left h2 {
-  font-size: 1.8rem;
+.content-wrapper:hover {
+  transform: translateY(-5px);
+}
+
+.gradient-text {
+  font-size: 2.2rem;
+  background: linear-gradient(45deg, #ffffff, #d38f41);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-align: center;
-  margin-bottom: 1.5rem;
-  color: #ffffff;
-  font-weight: 700;
+  margin-bottom: 2rem;
 }
 
 .mission-statement {
   text-align: center;
-  font-size: 1.2rem;
-  line-height: 1.6;
-  color: #ffffff;
-  margin-bottom: 2rem;
-  font-weight: 500;
-}
-
-.carousel-wrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
-  overflow: hidden;
-  z-index: 1;
-}
-
-/* Style adjustments for shadcn carousel */
-:global(.embla) {
-  overflow: hidden !important;
-  width: 100% !important;
-}
-
-:global(.embla__container) {
-  display: flex !important;
-}
-
-:global(.embla__slide) {
-  flex: 0 0 100% !important;
-  min-width: 0 !important;
+  font-size: 1.3rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 3rem;
+  font-weight: 400;
 }
 
 .key-points {
-  margin-bottom: 2rem;
+  display: grid;
+  gap: 2rem;
+  margin-bottom: 3rem;
 }
 
 .key-point {
   display: flex;
   align-items: flex-start;
-  margin-bottom: 1.2rem;
-  background: rgba(10, 10, 10, 0.7);
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.key-point:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateX(10px);
+}
+
+.icon-wrapper {
+  background: linear-gradient(135deg, rgba(211, 143, 65, 0.2), rgba(100, 21, 95, 0.2));
   padding: 1rem;
-  border-radius: 8px;
-  border-left: 3px solid rgba(211, 143, 65, 0.8);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .icon {
   font-size: 1.5rem;
-  margin-right: 0.8rem;
-  color: #d38f41;
 }
 
 .key-point p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  line-height: 1.6;
   margin: 0;
-  line-height: 1.5;
-  color: #ffffff;
 }
 
 .cta-container {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
+  text-align: center;
+  margin-top: 2rem;
 }
 
 .cta-button {
-  display: inline-block;
-  padding: 0.8rem 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(45deg, #d38f41, #ff6600);
+  color: white;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 30px;
   font-weight: 600;
   transition: all 0.3s ease;
-  background: #d38f41; /* Solid color instead of gradient */
-  color: white;
-  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  width: 50%;
-  max-width: 300px;
-  min-width: 150px;
+  position: relative;
+  overflow: hidden;
 }
 
 .cta-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 15px rgba(211, 143, 65, 0.3);
+}
+
+.arrow-icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.cta-button:hover .arrow-icon {
+  transform: translateX(5px);
 }
 
 .BSC-right {
   flex: 1;
   padding: 2rem;
   min-width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   z-index: 1;
 }
 
-.indicator {
-  width: 10px;
-  height: 10px;
+.carousel-wrapper {
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 16/9;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+:global(.embla) {
+  width: 100%;
+  height: 100%;
+}
+
+:global(.embla__viewport) {
+  width: 100%;
+  height: 100%;
+}
+
+:global(.embla__container) {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+:global(.embla__slide) {
+  flex: 0 0 100%;
+  min-width: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:global(.embla__slide img) {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+:global(.embla__button) {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.8);
   border: none;
   cursor: pointer;
-  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.3s ease;
 }
 
-.indicator.active {
-  background-color: #d38f41;
-  transform: scale(1.3);
+:global(.embla__button:hover) {
+  background-color: rgba(255, 255, 255, 0.95);
+  transform: scale(1.1);
 }
 
-.indicator:hover {
-  background-color: rgba(211, 143, 65, 0.7);
+:global(.embla__button--prev) {
+  left: 10px;
 }
 
-/* Animation for reveal elements - simplified */
+:global(.embla__button--next) {
+  right: 10px;
+}
+
 .reveal-element {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  will-change: opacity, transform;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .reveal-element.revealed {
@@ -361,106 +358,48 @@ import BSCCarousel from "../components/BSCCarousel";
   transform: translateY(0);
 }
 
-.BSC-right img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 15px rgba(198, 125, 22, 0.4);
-  transition: transform 0.5s ease, box-shadow 0.5s ease;
-}
-
-.BSC-right img:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 25px rgba(198, 125, 22, 0.6);
-}
-
-/* Responsive adjustments */
-@media (max-width: 992px) {
-  .BSC-left, .BSC-right {
-    padding: 1.5rem;
-  }
-  
-  .cta-button {
-    width: 80%;
-  }
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 @media (max-width: 768px) {
   .next-section {
-    flex-direction: column;
-    padding: 3rem 1.5rem;
-  }
-  
-  .BSC-left, .BSC-right {
-    width: 100%;
-    padding: 1rem;
+    padding: 4rem 1rem;
   }
 
   .section-heading h1 {
-    font-size: 2rem;
+    font-size: 3rem;
   }
 
-  .BSC-left h2 {
-    font-size: 1.5rem;
+  .content-wrapper {
+    padding: 2rem;
+  }
+
+  .gradient-text {
+    font-size: 1.8rem;
   }
 
   .mission-statement {
     font-size: 1.1rem;
   }
-  
-  .key-point {
-    align-items: flex-start;
-  }
-  
-  .carousel {
-    max-height: 300px;
-    overflow: hidden;
-  }
-  
-  .carousel-button {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .cta-button {
-    width: 100%;
-    max-width: none;
-    padding: 0.7rem 1rem;
-  }
 }
 
 @media (max-width: 480px) {
-  .next-section {
-    padding: 2rem 1rem;
-  }
-  
   .section-heading h1 {
-    font-size: 1.8rem;
+    font-size: 2.5rem;
+    letter-spacing: 0.1em;
   }
-  
-  .BSC-left h2 {
-    font-size: 1.3rem;
+
+  .key-point {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
-  
-  .mission-statement {
-    font-size: 1rem;
-  }
-  
-  .icon {
-    font-size: 1.25rem;
-  }
-  
-  .key-point p {
-    font-size: 0.9rem;
-  }
-  
-  .carousel {
-    max-height: 250px;
-  }
-  
-  .caption {
-    padding: 0.5rem;
-    font-size: 0.8rem;
+
+  .icon-wrapper {
+    margin-bottom: 1rem;
   }
 }
 </style>
