@@ -1,23 +1,13 @@
 // src/components/ContactForm.tsx
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { toast } from "sonner";
-import { Mail } from "lucide-react";
+import { Mail, X } from "lucide-react";
 
 export default function ContactForm() {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
   
   // Form state
   const [formData, setFormData] = useState({
@@ -34,6 +24,45 @@ export default function ContactForm() {
     subject: "",
     message: ""
   });
+
+  // Initialize modal root element
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      let modalContainer = document.getElementById('modal-root');
+      if (!modalContainer) {
+        modalContainer = document.createElement('div');
+        modalContainer.id = 'modal-root';
+        modalContainer.style.position = 'fixed';
+        modalContainer.style.top = '0';
+        modalContainer.style.left = '0';
+        modalContainer.style.right = '0';
+        modalContainer.style.bottom = '0';
+        modalContainer.style.pointerEvents = 'none';
+        modalContainer.style.zIndex = '10000';
+        document.body.appendChild(modalContainer);
+      }
+      setModalRoot(modalContainer);
+    }
+  }, []);
+
+  // Handle escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -105,7 +134,7 @@ export default function ContactForm() {
     setIsSubmitting(true);
     
     try {
-      // Send data to Formspree - REPLACE WITH YOUR ACTUAL FORMSPREE ENDPOINT
+      // Send data to Formspree
       const response = await fetch("https://formspree.io/f/xanqrjry", {
         method: "POST",
         headers: {
@@ -135,7 +164,7 @@ export default function ContactForm() {
         subject: "",
         message: ""
       });
-      setOpen(false);
+      setIsOpen(false);
     } catch (error) {
       // Show error message if something goes wrong
       toast.error("Something went wrong", {
@@ -147,103 +176,111 @@ export default function ContactForm() {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <button className="custom-contact-btn">
-          <span className="hidden sm:inline sm:mr-3">Contact Me</span>
-          <Mail className="h-4 w-4" />
-        </button>
-      </DialogTrigger>
-      
-      <DialogContent className="sm:max-w-[500px] contact-form-dialog">
-        <DialogHeader className="space-y-3">
-          <DialogTitle className="text-2xl font-semibold">Get in Touch</DialogTitle>
-          <DialogDescription className="text-base opacity-90">
-            Fill out this form to send me a message. It makes it easier for me to respond as quickly as possible.
-          </DialogDescription>
-        </DialogHeader>
-        
-        <form onSubmit={handleSubmit} className="space-y-6 pt-4">
-          <div className="space-y-2">
-            <label htmlFor="name" className="text-sm font-medium block">
-              Name
-            </label>
-            <Input
-              id="name"
-              name="name"
-              placeholder="Your name"
-              value={formData.name}
-              onChange={handleChange}
-              className="form-input"
-            />
-            {errors.name && (
-              <p className="text-sm text-red-500 mt-1">{errors.name}</p>
-            )}
-          </div>
-          
-          <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium block">
-              Email
-            </label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="your.email@example.com"
-              value={formData.email}
-              onChange={handleChange}
-              className="form-input"
-            />
-            {errors.email && (
-              <p className="text-sm text-red-500 mt-1">{errors.email}</p>
-            )}
-          </div>
-          
-          <div className="space-y-2">
-            <label htmlFor="subject" className="text-sm font-medium block">
-              Subject
-            </label>
-            <Input
-              id="subject"
-              name="subject"
-              placeholder="What's this about?"
-              value={formData.subject}
-              onChange={handleChange}
-              className="form-input"
-            />
-            {errors.subject && (
-              <p className="text-sm text-red-500 mt-1">{errors.subject}</p>
-            )}
-          </div>
-          
-          <div className="space-y-2">
-            <label htmlFor="message" className="text-sm font-medium block">
-              Message
-            </label>
-            <Textarea
-              id="message"
-              name="message"
-              placeholder="Your message here..."
-              className="form-textarea min-h-[150px]"
-              value={formData.message}
-              onChange={handleChange}
-            />
-            {errors.message && (
-              <p className="text-sm text-red-500 mt-1">{errors.message}</p>
-            )}
-          </div>
-          
-          <DialogFooter className="pt-4">
-            <Button
-              type="submit"
-              className="w-full contact-submit-btn"
-              disabled={isSubmitting}
+    <>
+      {/* Trigger Button */}
+      <button 
+        className="contact-form-trigger"
+        onClick={() => {
+          console.log('Contact button clicked');
+          setIsOpen(true);
+        }}
+      >
+        <span className="contact-btn-text">Contact Me</span>
+        <Mail className="contact-btn-icon" />
+      </button>
+
+      {/* Custom Modal */}
+      {isOpen && modalRoot && createPortal(
+        <div 
+          className="contact-modal-overlay"
+          onClick={() => setIsOpen(false)}
+        >
+          <div 
+            className="contact-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              className="contact-modal-close"
+              onClick={() => setIsOpen(false)}
             >
-              {isSubmitting ? "Sending..." : "Send Message"}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+              <X size={16} />
+            </button>
+
+            {/* Header */}
+            <div className="contact-modal-header">
+              <h2>Get in Touch</h2>
+              <p>Fill out this form to send me a message.</p>
+            </div>
+            
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="contact-form">
+              <div className="form-group">
+                <label htmlFor="name">Name</label>
+                <input
+                  id="name"
+                  name="name"
+                  placeholder="Your name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="form-input"
+                />
+                {errors.name && <p className="form-error">{errors.name}</p>}
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="your.email@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="form-input"
+                />
+                {errors.email && <p className="form-error">{errors.email}</p>}
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="subject">Subject</label>
+                <input
+                  id="subject"
+                  name="subject"
+                  placeholder="What's this about?"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className="form-input"
+                />
+                {errors.subject && <p className="form-error">{errors.subject}</p>}
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="message">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  placeholder="Your message here..."
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={4}
+                  className="form-textarea"
+                />
+                {errors.message && <p className="form-error">{errors.message}</p>}
+              </div>
+              
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="contact-submit-btn"
+              >
+                {isSubmitting ? "Sending..." : "Send Message"}
+              </button>
+            </form>
+          </div>
+        </div>,
+        modalRoot
+      )}
+    </>
   );
 }
